@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portafolio</title>
+  <title>AUGI</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --negro: #080808;
+      --negro: #0f0f0f;
       --blanco: #f0ece4;
       --gris: #888;
-      --acento: #c8b89a;
+      --acento: #41c8fd;
     }
 
     html, body {
@@ -43,37 +43,20 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 48px;
-      height: 60px;
+      height: 80px;
       background: rgba(8,8,8,0.88);
       backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(200,184,154,0.07);
+      border-bottom: 1px solid rgba(65,200,253,0.07);
     }
 
     .nav-logo {
-      height: 22px;        /* pequeño pero legible */
+      height: 74px;
       opacity: 0;
-      animation: fadeUp 1s ease 0.3s forwards;
+      animation: fadeUp 0.5s ease 0.3s forwards;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
-
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.5s forwards;
-    }
-
-    .nav-links li a {
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: var(--gris);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .nav-links li a:hover { color: var(--acento); }
 
     /* ── HERO ── */
     .hero {
@@ -83,98 +66,284 @@
       align-items: center;
       justify-content: center;
       position: relative;
+      overflow: hidden;
     }
 
-    .hero::before, .hero::after {
-      content: '';
+    /* ── LUCES DE FONDO ── */
+    .luz {
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, rgba(200,184,154,0.12), transparent);
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
     }
-    .hero::before { top: 0;    height: 28%; }
-    .hero::after  { bottom: 0; height: 28%; }
 
+    .luz-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(65,200,253,0.12) 0%, transparent 70%);
+      top: 10%;
+      left: 15%;
+      animation: parpadeo 6s ease-in-out infinite;
+    }
+
+    .luz-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(65,200,253,0.08) 0%, transparent 70%);
+      bottom: 15%;
+      right: 10%;
+      animation: parpadeo 8s ease-in-out 2s infinite;
+    }
+
+    .luz-3 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(65,200,253,0.06) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: parpadeo 5s ease-in-out 1s infinite;
+    }
+
+    @keyframes parpadeo {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 1;   }
+    }
+
+    /* ── IMÁGENES FLOTANTES ── */
+    .float-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .float-img {
+      position: absolute;
+      bottom: -200px;             /* arranca debajo del hero */
+      width: 160px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 6px;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    /* ── HERO CONTENT ── */
     .hero-logo-wrap {
+      position: relative;
+      z-index: 2;
       opacity: 0;
       transform: translateY(24px);
-      animation: fadeUp 1.4s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
+      animation: fadeUpSimple 1.4s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 28px;
     }
 
-    /* mediano-rozando pequeño */
-    .hero-logo {
-      width: min(340px, 62vw);
-      filter: brightness(0) invert(1);
-    }
-
     .hero-tagline {
-      font-weight: 200;
-      font-size: 10px;
-      letter-spacing: 6px;
+      font-weight: 700;
+      font-size: 50px;
+      letter-spacing: 2px;
       text-transform: uppercase;
+      text-align: center;
       color: var(--acento);
       opacity: 0;
-      animation: fadeUp 1s ease 1.4s forwards;
+      animation: fadeUpSimple 1s ease 1.4s forwards;
+      max-width: 80vw;
+      line-height: 1.1;
     }
 
-    /* SCROLL HINT */
-    .scroll-hint {
-      position: absolute;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeUp 1s ease 2s forwards;
-    }
-
-    .scroll-hint span {
-      font-size: 8px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--gris);
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 36px;
-      background: linear-gradient(to bottom, var(--acento), transparent);
-      animation: scrollPulse 2.2s ease-in-out infinite;
-    }
-
-    /* ── SECCIÓN FUTURA ── */
-    .coming-soon {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-top: 1px solid rgba(200,184,154,0.05);
-    }
-
-    .coming-soon p {
-      font-size: 9px;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: rgba(136,136,136,0.25);
-    }
-
-    /* ── ANIMACIONES ── */
+    /* ── ANIMACIONES BASE ── */
     @keyframes fadeUp {
+      to { opacity: 1; transform: translateX(-50%); }
+    }
+
+    @keyframes fadeUpSimple {
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; }
-      50%       { opacity: 1;   }
+
+    /* ── SERVICIOS ── */
+    .services {
+      padding: 120px 48px;
+      background: var(--negro);
     }
+
+    .services h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      color: var(--acento);
+      margin-bottom: 60px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .service-slider {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .service-left,
+    .service-right {
+      width: 100%;
+    }
+
+    .slider-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.2);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      opacity: 1;
+      transform: translateY(0);
+      width: 100%;
+    }
+
+    .slider-card.fade {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .slider-image-wrap {
+      position: relative;
+      min-height: 320px;
+    }
+
+    .service-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .service-overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 16px 18px;
+      border-radius: 0;
+      background: rgba(0, 0, 0, 0.685);
+      backdrop-filter: blur(18px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .service-title {
+      font-family: Arial, sans-serif;
+      font-size: 25px;
+      font-weight: bold;
+      line-height: 1.1;
+      color: var(--acento);
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .service-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 320px;
+      gap: 24px;
+    }
+
+    .slider-info {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .service-description {
+      padding: 0;
+      color: var(--blanco);
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.4;
+      opacity: 0.95;
+      margin: 0;
+    }
+
+    .slider-controls {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .slider-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 40%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(15,15,15,0.85);
+      color: var(--blanco);
+      font-size: 28px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .slider-btn:hover {
+      transform: scale(1.05);
+      background: rgba(65,200,253,0.15);
+    }
+
+    .demo-button {
+      display: inline-block;
+      margin: 14px 24px 2px;
+      padding: 8px 8px;
+      color: var(--acento);
+      background: rgba(65, 200, 253, 0.014);
+      border: 1px solid rgba(65, 200, 253, 0);
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+    }
+
+    .demo-button:hover {
+      background: rgba(65,200,253,0.35);
+      transform: translateY(-1px);
+      border-color: rgba(65,200,253,0.6);
+    }
+
+    .service-note {
+      padding: 0 24px 24px;
+      color: rgba(255,255,255,0.7);
+      font-size: 10px;
+      text-align: center;
+      opacity: 0.9;
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 960px) {
+      .service-slider {
+        grid-template-columns: 1fr;
+      }
+
+      .service-right {
+        min-height: auto;
+      }
+
+      .slider-controls {
+        justify-content: space-between;
+      }
+    }
+
+
   </style>
 </head>
 <body>
@@ -182,29 +351,202 @@
   <!-- NAVBAR -->
   <nav>
     <img src="recursos/interfaz/logotitulo.png" class="nav-logo" alt="Logo">
-    <ul class="nav-links">
-      <li><a href="#">Inicio</a></li>
-      <!-- Agrega más links aquí a futuro -->
-    </ul>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
+
+    <div class="luz luz-1"></div>
+    <div class="luz luz-2"></div>
+    <div class="luz luz-3"></div>
+
+    <!-- Las imágenes flotantes se inyectan aquí por JS -->
+    <div class="float-canvas" id="floatCanvas"></div>
+
     <div class="hero-logo-wrap">
-      <img src="recursos/interfaz/logoentero.png" class="hero-logo" alt="Logo completo">
-      <p class="hero-tagline">Foto · Video · Audio</p>
+      <h1 class="hero-tagline">Producción audiovisual profesional para evento social y empresariale dentro de Monterrey</h1>
     </div>
 
-    <div class="scroll-hint">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="services">
+    <h2>Nuestros servicios:</h2>
+    <div class="service-slider">
+      <div class="service-left">
+        <div class="slider-card visible" id="serviceCard">
+          <div class="slider-image-wrap">
+            <img src="recursos/slider/boda.JPG" alt="Producción de Boda" class="service-image" id="serviceImage">
+            <div class="service-overlay">
+              <h3 class="service-title" id="serviceTitle">Producción de Boda</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="service-right">
+        <div class="slider-info">
+          <p class="service-description" id="serviceDescription">
+            Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.
+          </p>
+          <button class="demo-button" id="demoButton">Ver demo reel</button>
+           <button class="demo-button" id="demoButton">Solicitar</button>
+        </div>
+        <div class="slider-controls">
+          <button class="slider-btn" id="prevService" aria-label="Anterior servicio">‹</button>
+          <button class="slider-btn" id="nextService" aria-label="Siguiente servicio">›</button>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- SECCIÓN FUTURA -->
-  <section class="coming-soon">
-    <p>Contenido próximamente</p>
-  </section>
+
+  <script>
+    // ── Lista de imágenes en recursos/float/
+    // Agrega o quita nombres según los archivos que tengas en esa carpeta
+    const imagenes = [
+      'recursos/float/1.jpg',
+      'recursos/float/2.jpg',
+      'recursos/float/3.jpg',
+      'recursos/float/4.jpg',
+
+    ];
+
+    const canvas    = document.getElementById('floatCanvas');
+    const W         = () => canvas.offsetWidth;
+    const H         = () => canvas.offsetHeight;
+    let   imgIndex  = 0;
+
+    function lanzar() {
+      const src = imagenes[imgIndex % imagenes.length];
+      imgIndex++;
+
+      const img       = document.createElement('img');
+      img.src         = src;
+      img.className   = 'float-img';
+
+      // Posición horizontal aleatoria con margen
+      const margen    = 80;
+      const xInicio   = margen + Math.random() * (W() - 160 - margen * 2);
+
+      // Tamaño con variación
+      const escala    = 0.7 + Math.random() * 0.7;   // entre 0.7x y 1.4x
+      img.style.width  = (160 * escala) + 'px';
+      img.style.height = (110 * escala) + 'px';
+      img.style.left   = xInicio + 'px';
+
+      // Duración y ondulación únicos por imagen
+      const duracion   = 9000 + Math.random() * 8000;   // 7–13 s
+      const amplitud   = 30  + Math.random() * 50;       // 30–80 px de lado a lado
+      const fase       = Math.random() * Math.PI * 2;    // fase aleatoria
+
+      canvas.appendChild(img);
+
+      const inicio     = performance.now();
+      const alturaTotal = H() + 940;
+
+      function tick(ahora) {
+        const t          = (ahora - inicio) / duracion;   // 0 → 1
+        const progreso   = t;
+
+        if (t >= 1) {
+          img.remove();
+          return;
+        }
+
+        // Sube desde abajo hacia arriba
+        const y          = H() - progreso * alturaTotal;
+
+        // Ondulación horizontal senoidal
+        const x          = xInicio + Math.sin(fase + progreso * Math.PI * 4) * amplitud;
+
+        // Opacidad: fade in primero, fade out al final
+        let opacidad;
+        if (progreso < 0.12)       opacidad = (progreso / 0.12) * 0.55;
+        else if (progreso > 0.78)  opacidad = ((1 - progreso) / 0.22) * 0.55;
+        else                       opacidad = 0.55;
+
+        img.style.transform = `translate(${x - xInicio}px, ${y}px)`;
+        img.style.opacity   = opacidad;
+
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    setTimeout(() => {
+      lanzar();
+      setInterval(lanzar, 800);
+    }, 10);
+
+    const services = [
+      {
+        title: 'Produccion de XVaños',
+        description: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
+        image: 'recursos/slider/xv.JPG'
+      },
+      {
+        title: 'Evento Corporativo',
+        description: 'Grabación de eventos empresariales con producción pulida y entrega de contenido listo para presentar.',
+        image: 'recursos/slider/placeholder.jfif'
+      },
+      {
+        title: 'Producción de Boda',
+        description: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
+        image: 'recursos/slider/boda.JPG'
+      }
+    ];
+
+    const serviceImage = document.getElementById('serviceImage');
+    const serviceTitle = document.getElementById('serviceTitle');
+    const serviceDescription = document.getElementById('serviceDescription');
+    const serviceCard = document.getElementById('serviceCard');
+    let serviceIndex = 2;
+
+    function updateService(index) {
+      // Anima la salida hacia la izquierda, reduciendo tamaño
+      serviceCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+      serviceCard.style.opacity = '0';
+      serviceCard.style.transform = 'translateX(-100px) scale(0.8)';
+
+      setTimeout(() => {
+        // Actualiza contenido
+        const service = services[index];
+        serviceImage.src = service.image;
+        serviceImage.alt = service.title;
+        serviceTitle.textContent = service.title;
+        serviceDescription.textContent = service.description;
+
+        // Prepara para entrar desde la derecha, pequeño
+        serviceCard.style.transition = 'none';
+        serviceCard.style.opacity = '0';
+        serviceCard.style.transform = 'translateX(100px) scale(0.8)';
+
+        // Anima la entrada hacia el centro, creciendo
+        setTimeout(() => {
+          serviceCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+          serviceCard.style.opacity = '1';
+          serviceCard.style.transform = 'translateX(0) scale(1)';
+        }, 50);
+      }, 350);
+    }
+
+    document.getElementById('prevService').addEventListener('click', () => {
+      serviceIndex = (serviceIndex - 1 + services.length) % services.length;
+      updateService(serviceIndex);
+    });
+
+    document.getElementById('nextService').addEventListener('click', () => {
+      serviceIndex = (serviceIndex + 1) % services.length;
+      updateService(serviceIndex);
+    });
+
+    document.getElementById('demoButton').addEventListener('click', () => {
+      alert('Demo reel pronto disponible. En breve agregaremos el video de YouTube para este servicio.');
+    });
+  </script>
+
+
 
 </body>
 </html>
