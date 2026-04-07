@@ -1,10 +1,10 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AUGI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -23,7 +23,6 @@
       overflow-x: hidden;
     }
 
-    /* GRAIN */
     body::before {
       content: '';
       position: fixed;
@@ -41,35 +40,32 @@
       z-index: 50;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      height: 80px;
+      justify-content: center;
+      padding: 0 24px;
+      height: 70px;
       background: rgba(8,8,8,0.88);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(65,200,253,0.07);
     }
 
     .nav-logo {
-      height: 74px;
+      height: 60px;
       opacity: 0;
-      animation: fadeUp 0.5s ease 0.3s forwards;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      animation: fadeIn 0.5s ease 0.3s forwards;
     }
 
     /* ── HERO ── */
     .hero {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
+      padding: 80px 24px 40px;
     }
 
-    /* ── LUCES DE FONDO ── */
     .luz {
       position: absolute;
       border-radius: 50%;
@@ -79,29 +75,23 @@
     }
 
     .luz-1 {
-      width: 500px;
-      height: 500px;
+      width: 500px; height: 500px;
       background: radial-gradient(circle, rgba(65,200,253,0.12) 0%, transparent 70%);
-      top: 10%;
-      left: 15%;
+      top: 10%; left: 15%;
       animation: parpadeo 6s ease-in-out infinite;
     }
 
     .luz-2 {
-      width: 400px;
-      height: 400px;
+      width: 400px; height: 400px;
       background: radial-gradient(circle, rgba(65,200,253,0.08) 0%, transparent 70%);
-      bottom: 15%;
-      right: 10%;
+      bottom: 15%; right: 10%;
       animation: parpadeo 8s ease-in-out 2s infinite;
     }
 
     .luz-3 {
-      width: 300px;
-      height: 300px;
+      width: 300px; height: 300px;
       background: radial-gradient(circle, rgba(65,200,253,0.06) 0%, transparent 70%);
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       animation: parpadeo 5s ease-in-out 1s infinite;
     }
@@ -111,7 +101,6 @@
       50%       { opacity: 1;   }
     }
 
-    /* ── IMÁGENES FLOTANTES ── */
     .float-canvas {
       position: absolute;
       inset: 0;
@@ -122,7 +111,7 @@
 
     .float-img {
       position: absolute;
-      bottom: -200px;             /* arranca debajo del hero */
+      bottom: -200px;
       width: 160px;
       height: 110px;
       object-fit: cover;
@@ -131,7 +120,6 @@
       will-change: transform, opacity;
     }
 
-    /* ── HERO CONTENT ── */
     .hero-logo-wrap {
       position: relative;
       z-index: 2;
@@ -142,113 +130,68 @@
       flex-direction: column;
       align-items: center;
       gap: 28px;
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
     }
 
     .hero-tagline {
       font-weight: 700;
-      font-size: clamp(28px, 6vw, 44px);
-      letter-spacing: 2px;
+      font-size: clamp(22px, 5vw, 44px);
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       text-align: center;
       color: var(--acento);
       opacity: 0;
       animation: fadeUpSimple 1s ease 1.4s forwards;
-      max-width: 90vw;
-      line-height: 1.1;
+      line-height: 1.15;
     }
 
-    @media (max-width: 960px) {
-      .services {
-        padding: 100px 24px;
-      }
-
-      .service-slider {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
-
-      .service-right {
-        min-height: auto;
-      }
-
-      .slider-controls {
-        justify-content: space-between;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .hero-tagline {
-        font-size: 32px;
-        letter-spacing: 1px;
-      }
-
-      .service-slider {
-        gap: 14px;
-      }
-
-      .slider-card {
-        max-width: 420px;
-        margin: 0 auto;
-      }
-
-      .slider-image-wrap {
-        min-height: 180px;
-        aspect-ratio: 4 / 3;
-      }
-
-      .demo-button {
-        width: auto;
-        margin: 8px 16px 0;
-      }
-
-      .slider-controls {
-        justify-content: space-between;
-      }
-    }
-
-    /* ── ANIMACIONES BASE ── */
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateX(-50%); }
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
 
     @keyframes fadeUpSimple {
       to { opacity: 1; transform: translateY(0); }
     }
 
-
     /* ── SERVICIOS ── */
     .services {
-      padding: 120px 48px;
+      padding: 80px 24px 100px;
       background: var(--negro);
     }
 
     .services h2 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 36px;
+      font-size: clamp(22px, 5vw, 36px);
       font-weight: bold;
       text-align: center;
       color: var(--acento);
-      margin-bottom: 60px;
+      margin-bottom: 48px;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
 
+    /* ── SLIDER LAYOUT ── */
     .service-slider {
       width: 100%;
       max-width: 1080px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.35fr 0.85fr;
+      display: flex;
+      flex-direction: column;
       gap: 24px;
-      align-items: start;
     }
 
-    .service-left,
-    .service-right {
-      width: 100%;
-      min-width: 0;
+    /* En pantallas grandes: dos columnas */
+    @media (min-width: 700px) {
+      .service-slider {
+        display: grid;
+        grid-template-columns: 1.35fr 0.85fr;
+        align-items: start;
+      }
     }
 
+    /* ── CARD ── */
     .slider-card {
       position: relative;
       overflow: hidden;
@@ -257,21 +200,14 @@
       background: rgba(255,255,255,0.02);
       box-shadow: 0 16px 36px rgba(0,0,0,0.2);
       transition: opacity 0.35s ease, transform 0.35s ease;
-      opacity: 1;
-      transform: translateY(0);
       width: 100%;
-      min-width: 0;
     }
 
-    .slider-card.fade {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-
+    /* Imagen: usa aspect-ratio para que nunca se corte */
     .slider-image-wrap {
       position: relative;
+      width: 100%;
       aspect-ratio: 4 / 3;
-      min-height: 260px;
       overflow: hidden;
       background: #050506;
     }
@@ -279,83 +215,88 @@
     .service-image {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
       display: block;
-      background: #050506;
     }
 
     .service-overlay {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 14px 16px;
-      border-radius: 0 0 10px 10px;
-      background: rgba(0, 0, 0, 0.72);
+      left: 0; right: 0; bottom: 0;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.72);
       backdrop-filter: blur(18px);
       border-top: 1px solid rgba(255,255,255,0.08);
-      display: block;
-      width: 100%;
     }
 
     .service-title {
       display: block;
-      font-family: Arial, sans-serif;
-      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(16px, 4vw, 22px);
       font-weight: bold;
-      line-height: 1.1;
       color: var(--acento);
       text-transform: uppercase;
       text-align: center;
       margin: 0;
-      width: 100%;
-      word-break: break-word;
     }
 
+    /* ── PANEL DERECHO ── */
     .service-right {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      min-height: 320px;
-      gap: 24px;
+      gap: 20px;
     }
 
     .slider-info {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .service-description {
-      padding: 0;
       color: var(--blanco);
-      font-family: Arial, sans-serif;
-      font-size: 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(14px, 3.5vw, 18px);
       font-weight: bold;
       line-height: 1.5;
       opacity: 0.95;
-      margin: 0;
+    }
+
+    /* ── BOTONES ── */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .demo-button {
       display: block;
-      margin: 8px auto 0;
-      padding: 10px 16px;
+      width: 100%;
+      padding: 12px 16px;
       color: var(--acento);
-      background: rgba(65, 200, 253, 0.014);
-      border: 1px solid rgba(65, 200, 253, 0);
+      background: rgba(65,200,253,0.05);
+      border: 1px solid rgba(65,200,253,0.25);
       border-radius: 100px;
       text-transform: uppercase;
       letter-spacing: 3px;
       font-weight: 700;
+      font-size: 13px;
+      font-family: 'Montserrat', sans-serif;
       cursor: pointer;
       transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
       touch-action: manipulation;
-      max-width: 280px;
-      width: calc(100% - 48px);
+      text-align: center;
     }
 
+    @media (hover: hover) and (pointer: fine) {
+      .demo-button:hover {
+        background: rgba(65,200,253,0.2);
+        transform: translateY(-1px);
+        border-color: rgba(65,200,253,0.6);
+      }
+    }
+
+    /* ── CONTROLES ── */
     .slider-controls {
       display: flex;
       justify-content: center;
@@ -365,104 +306,50 @@
     .slider-btn {
       width: 56px;
       height: 56px;
-      border-radius: 40%;
+      border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(15,15,15,0.85);
       color: var(--blanco);
       font-size: 28px;
       cursor: pointer;
       transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .slider-btn:hover {
-      transform: scale(1.05);
-      background: rgba(65,200,253,0.15);
-    }
-
-    .demo-button {
-      display: inline-block;
-      margin: 8px 24px 0;
-      padding: 10px 16px;
-      color: var(--acento);
-      background: rgba(65, 200, 253, 0.014);
-      border: 1px solid rgba(65, 200, 253, 0);
-      border-radius: 100px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       touch-action: manipulation;
     }
 
     @media (hover: hover) and (pointer: fine) {
-      .demo-button:hover {
-        background: rgba(65,200,253,0.35);
-        transform: translateY(-1px);
-        border-color: rgba(65,200,253,0.6);
-      }
-
       .slider-btn:hover {
         transform: scale(1.05);
         background: rgba(65,200,253,0.15);
       }
     }
-
-    .service-note {
-      padding: 0 24px 24px;
-      color: rgba(255,255,255,0.7);
-      font-size: 10px;
-      text-align: center;
-      opacity: 0.9;
-      margin-bottom: 0;
-    }
-
-    @media (max-width: 960px) {
-      .service-slider {
-        grid-template-columns: 1fr;
-      }
-
-      .service-right {
-        min-height: auto;
-      }
-
-      .slider-controls {
-        justify-content: space-between;
-      }
-    }
-
-
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav>
-    <img src="recursos/interfaz/logotitulo.png" class="nav-logo" alt="Logo">
+    <img src="recursos/interfaz/logotitulo.png" class="nav-logo" alt="AUGI Logo">
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
-
     <div class="luz luz-1"></div>
     <div class="luz luz-2"></div>
     <div class="luz luz-3"></div>
-
-    <!-- Las imágenes flotantes se inyectan aquí por JS -->
     <div class="float-canvas" id="floatCanvas"></div>
 
     <div class="hero-logo-wrap">
-      <h1 class="hero-tagline">Producción audiovisual profesional para evento social y empresariale dentro de Monterrey</h1>
+      <h1 class="hero-tagline">Producción audiovisual profesional para eventos sociales y empresariales en Monterrey</h1>
     </div>
-
   </section>
 
-  <!-- SERVICIOS -->
   <section class="services">
-    <h2>Nuestros servicios:</h2>
+    <h2>Nuestros servicios</h2>
     <div class="service-slider">
+
       <div class="service-left">
-        <div class="slider-card visible" id="serviceCard">
+        <div class="slider-card" id="serviceCard">
           <div class="slider-image-wrap">
             <img src="recursos/slider/boda.JPG" alt="Producción de Boda" class="service-image" id="serviceImage">
             <div class="service-overlay">
@@ -471,88 +358,78 @@
           </div>
         </div>
       </div>
+
       <div class="service-right">
         <div class="slider-info">
           <p class="service-description" id="serviceDescription">
             Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.
           </p>
-          <button class="demo-button" id="demoButton">Ver demo reel</button>
-           <button class="demo-button" id="demoButton">Solicitar</button>
+          <div class="btn-group">
+            <button class="demo-button" id="demoButton">Ver demo reel</button>
+            <button class="demo-button" id="solicitarButton">Solicitar</button>
+          </div>
         </div>
         <div class="slider-controls">
           <button class="slider-btn" id="prevService" aria-label="Anterior servicio">‹</button>
           <button class="slider-btn" id="nextService" aria-label="Siguiente servicio">›</button>
         </div>
       </div>
+
     </div>
   </section>
 
-
   <script>
-    // ── Lista de imágenes en recursos/float/
-    // Agrega o quita nombres según los archivos que tengas en esa carpeta
     const imagenes = [
       'recursos/float/1.JPG',
       'recursos/float/2.JPG',
       'recursos/float/3.JPG',
       'recursos/float/4.JPG',
-
     ];
 
-    const canvas    = document.getElementById('floatCanvas');
-    const W         = () => canvas.offsetWidth;
-    const H         = () => canvas.offsetHeight;
-    let   imgIndex  = 0;
+    const canvas   = document.getElementById('floatCanvas');
+    const W        = () => canvas.offsetWidth;
+    const H        = () => canvas.offsetHeight;
+    let   imgIndex = 0;
 
     function lanzar() {
-      const src = imagenes[imgIndex % imagenes.length];
+      const src       = imagenes[imgIndex % imagenes.length];
       imgIndex++;
 
       const img       = document.createElement('img');
       img.src         = src;
       img.className   = 'float-img';
 
-      // Posición horizontal aleatoria con margen
       const margen    = 30;
       const areaWidth = W() + 400;
       const xInicio   = -200 + Math.random() * areaWidth;
+      const escala    = 0.7 + Math.random() * 0.7;
 
-      // Tamaño con variación
-      const escala    = 0.7 + Math.random() * 0.7;   // entre 0.7x y 1.4x
       img.style.width  = (160 * escala) + 'px';
       img.style.height = (110 * escala) + 'px';
       img.style.left   = xInicio + 'px';
 
-      // Duración y ondulación únicos por imagen
-      const duracion   = 9000 + Math.random() * 8000;   // 7–13 s
-      const amplitud   = 80  + Math.random() * 90;       // 80–170 px de lado a lado
-      const fase       = Math.random() * Math.PI * 2;    // fase aleatoria
+      const duracion    = 9000 + Math.random() * 8000;
+      const amplitud    = 80   + Math.random() * 90;
+      const fase        = Math.random() * Math.PI * 2;
 
       canvas.appendChild(img);
 
-      const inicio     = performance.now();
+      const inicio      = performance.now();
       const alturaTotal = H() + 940;
 
       function tick(ahora) {
-        const t          = (ahora - inicio) / duracion;   // 0 → 1
-        const progreso   = t;
+        const t        = (ahora - inicio) / duracion;
+        const progreso = t;
 
-        if (t >= 1) {
-          img.remove();
-          return;
-        }
+        if (t >= 1) { img.remove(); return; }
 
-        // Sube desde abajo hacia arriba
-        const y          = H() - progreso * alturaTotal;
+        const y = H() - progreso * alturaTotal;
+        const x = xInicio + Math.sin(fase + progreso * Math.PI * 4) * amplitud;
 
-        // Ondulación horizontal senoidal
-        const x          = xInicio + Math.sin(fase + progreso * Math.PI * 4) * amplitud;
-
-        // Opacidad: fade in primero, fade out al final
         let opacidad;
-        if (progreso < 0.12)       opacidad = (progreso / 0.12) * 0.55;
-        else if (progreso > 0.78)  opacidad = ((1 - progreso) / 0.22) * 0.55;
-        else                       opacidad = 0.55;
+        if (progreso < 0.12)      opacidad = (progreso / 0.12) * 0.55;
+        else if (progreso > 0.78) opacidad = ((1 - progreso) / 0.22) * 0.55;
+        else                      opacidad = 0.55;
 
         img.style.transform = `translate(${x - xInicio}px, ${y}px)`;
         img.style.opacity   = opacidad;
@@ -563,14 +440,11 @@
       requestAnimationFrame(tick);
     }
 
-    setTimeout(() => {
-      lanzar();
-      setInterval(lanzar, 800);
-    }, 10);
+    setTimeout(() => { lanzar(); setInterval(lanzar, 800); }, 10);
 
     const services = [
       {
-        title: 'Produccion de XVaños',
+        title: 'Producción de XV Años',
         description: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
         image: 'recursos/slider/xv.JPG'
       },
@@ -586,36 +460,32 @@
       }
     ];
 
-    const serviceImage = document.getElementById('serviceImage');
-    const serviceTitle = document.getElementById('serviceTitle');
+    const serviceImage       = document.getElementById('serviceImage');
+    const serviceTitle       = document.getElementById('serviceTitle');
     const serviceDescription = document.getElementById('serviceDescription');
-    const serviceCard = document.getElementById('serviceCard');
-    let serviceIndex = 2;
+    const serviceCard        = document.getElementById('serviceCard');
+    let   serviceIndex       = 2;
 
     function updateService(index) {
-      // Anima la salida hacia la izquierda, reduciendo tamaño
       serviceCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-      serviceCard.style.opacity = '0';
-      serviceCard.style.transform = 'translateX(-100px) scale(0.8)';
+      serviceCard.style.opacity    = '0';
+      serviceCard.style.transform  = 'translateX(-60px) scale(0.92)';
 
       setTimeout(() => {
-        // Actualiza contenido
-        const service = services[index];
-        serviceImage.src = service.image;
-        serviceImage.alt = service.title;
-        serviceTitle.textContent = service.title;
+        const service           = services[index];
+        serviceImage.src        = service.image;
+        serviceImage.alt        = service.title;
+        serviceTitle.textContent       = service.title;
         serviceDescription.textContent = service.description;
 
-        // Prepara para entrar desde la derecha, pequeño
         serviceCard.style.transition = 'none';
-        serviceCard.style.opacity = '0';
-        serviceCard.style.transform = 'translateX(100px) scale(0.8)';
+        serviceCard.style.opacity    = '0';
+        serviceCard.style.transform  = 'translateX(60px) scale(0.92)';
 
-        // Anima la entrada hacia el centro, creciendo
         setTimeout(() => {
           serviceCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-          serviceCard.style.opacity = '1';
-          serviceCard.style.transform = 'translateX(0) scale(1)';
+          serviceCard.style.opacity    = '1';
+          serviceCard.style.transform  = 'translateX(0) scale(1)';
         }, 50);
       }, 350);
     }
@@ -633,9 +503,11 @@
     document.getElementById('demoButton').addEventListener('click', () => {
       alert('Demo reel pronto disponible. En breve agregaremos el video de YouTube para este servicio.');
     });
+
+    document.getElementById('solicitarButton').addEventListener('click', () => {
+      alert('Función de solicitud próximamente disponible.');
+    });
   </script>
-
-
 
 </body>
 </html>
