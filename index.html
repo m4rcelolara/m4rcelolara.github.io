@@ -157,23 +157,39 @@
       line-height: 1.1;
     }
 
+    @media (max-width: 960px) {
+      .services {
+        padding: 100px 24px;
+      }
+
+      .service-slider {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .service-right {
+        min-height: auto;
+      }
+
+      .slider-controls {
+        justify-content: space-between;
+      }
+    }
+
     @media (max-width: 760px) {
       .hero-tagline {
         font-size: 32px;
         letter-spacing: 1px;
       }
 
-      .service-slider {
-        grid-template-columns: 1fr;
-      }
-
       .slider-image-wrap {
         min-height: 220px;
+        aspect-ratio: 4 / 3;
       }
 
       .demo-button {
         width: auto;
-        margin: 8px 0 0;
+        margin: 8px 16px 0;
       }
 
       .slider-controls {
@@ -221,6 +237,7 @@
     .service-left,
     .service-right {
       width: 100%;
+      min-width: 0;
     }
 
     .slider-card {
@@ -234,6 +251,7 @@
       opacity: 1;
       transform: translateY(0);
       width: 100%;
+      min-width: 0;
     }
 
     .slider-card.fade {
@@ -243,7 +261,7 @@
 
     .slider-image-wrap {
       position: relative;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 16 / 9;
       min-height: 260px;
       overflow: hidden;
     }
@@ -257,28 +275,29 @@
 
     .service-overlay {
       position: absolute;
-      left: 18px;
-      bottom: 18px;
+      left: 0;
+      right: 0;
+      bottom: 0;
       padding: 14px 16px;
-      border-radius: 10px;
+      border-radius: 0 0 10px 10px;
       background: rgba(0, 0, 0, 0.72);
       backdrop-filter: blur(18px);
-      border: 1px solid rgba(255,255,255,0.08);
-      display: inline-block;
-      width: auto;
-      max-width: calc(100% - 36px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: block;
+      width: 100%;
     }
 
     .service-title {
-      display: inline-block;
+      display: block;
       font-family: Arial, sans-serif;
       font-size: 22px;
       font-weight: bold;
       line-height: 1.1;
       color: var(--acento);
       text-transform: uppercase;
+      text-align: center;
       margin: 0;
-      max-width: 100%;
+      width: 100%;
       word-break: break-word;
     }
 
@@ -308,8 +327,8 @@
     }
 
     .demo-button {
-      display: inline-block;
-      margin: 8px 24px 0;
+      display: block;
+      margin: 8px auto 0;
       padding: 10px 16px;
       color: var(--acento);
       background: rgba(65, 200, 253, 0.014);
@@ -320,6 +339,9 @@
       font-weight: 700;
       cursor: pointer;
       transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+      touch-action: manipulation;
+      max-width: 280px;
+      width: calc(100% - 48px);
     }
 
     .slider-controls {
@@ -458,10 +480,10 @@
     // ── Lista de imágenes en recursos/float/
     // Agrega o quita nombres según los archivos que tengas en esa carpeta
     const imagenes = [
-      'recursos/float/1.jpg',
-      'recursos/float/2.jpg',
-      'recursos/float/3.jpg',
-      'recursos/float/4.jpg',
+      'recursos/float/1.JPG',
+      'recursos/float/2.JPG',
+      'recursos/float/3.JPG',
+      'recursos/float/4.JPG',
 
     ];
 
