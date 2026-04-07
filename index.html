@@ -146,15 +146,39 @@
 
     .hero-tagline {
       font-weight: 700;
-      font-size: 50px;
+      font-size: clamp(28px, 6vw, 44px);
       letter-spacing: 2px;
       text-transform: uppercase;
       text-align: center;
       color: var(--acento);
       opacity: 0;
       animation: fadeUpSimple 1s ease 1.4s forwards;
-      max-width: 80vw;
+      max-width: 90vw;
       line-height: 1.1;
+    }
+
+    @media (max-width: 760px) {
+      .hero-tagline {
+        font-size: 32px;
+        letter-spacing: 1px;
+      }
+
+      .service-slider {
+        grid-template-columns: 1fr;
+      }
+
+      .slider-image-wrap {
+        min-height: 220px;
+      }
+
+      .demo-button {
+        width: auto;
+        margin: 8px 0 0;
+      }
+
+      .slider-controls {
+        justify-content: space-between;
+      }
     }
 
     /* ── ANIMACIONES BASE ── */
@@ -219,7 +243,9 @@
 
     .slider-image-wrap {
       position: relative;
-      min-height: 320px;
+      aspect-ratio: 16 / 10;
+      min-height: 260px;
+      overflow: hidden;
     }
 
     .service-image {
@@ -231,24 +257,29 @@
 
     .service-overlay {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 16px 18px;
-      border-radius: 0;
-      background: rgba(0, 0, 0, 0.685);
+      left: 18px;
+      bottom: 18px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.72);
       backdrop-filter: blur(18px);
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: inline-block;
+      width: auto;
+      max-width: calc(100% - 36px);
     }
 
     .service-title {
+      display: inline-block;
       font-family: Arial, sans-serif;
-      font-size: 25px;
+      font-size: 22px;
       font-weight: bold;
       line-height: 1.1;
       color: var(--acento);
       text-transform: uppercase;
       margin: 0;
+      max-width: 100%;
+      word-break: break-word;
     }
 
     .service-right {
@@ -262,18 +293,33 @@
     .slider-info {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 10px;
     }
 
     .service-description {
       padding: 0;
       color: var(--blanco);
       font-family: Arial, sans-serif;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
-      line-height: 1.4;
+      line-height: 1.5;
       opacity: 0.95;
       margin: 0;
+    }
+
+    .demo-button {
+      display: inline-block;
+      margin: 8px 24px 0;
+      padding: 10px 16px;
+      color: var(--acento);
+      background: rgba(65, 200, 253, 0.014);
+      border: 1px solid rgba(65, 200, 253, 0);
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
     }
 
     .slider-controls {
@@ -301,8 +347,8 @@
 
     .demo-button {
       display: inline-block;
-      margin: 14px 24px 2px;
-      padding: 8px 8px;
+      margin: 8px 24px 0;
+      padding: 10px 16px;
       color: var(--acento);
       background: rgba(65, 200, 253, 0.014);
       border: 1px solid rgba(65, 200, 253, 0);
@@ -312,12 +358,20 @@
       font-weight: 700;
       cursor: pointer;
       transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+      touch-action: manipulation;
     }
 
-    .demo-button:hover {
-      background: rgba(65,200,253,0.35);
-      transform: translateY(-1px);
-      border-color: rgba(65,200,253,0.6);
+    @media (hover: hover) and (pointer: fine) {
+      .demo-button:hover {
+        background: rgba(65,200,253,0.35);
+        transform: translateY(-1px);
+        border-color: rgba(65,200,253,0.6);
+      }
+
+      .slider-btn:hover {
+        transform: scale(1.05);
+        background: rgba(65,200,253,0.15);
+      }
     }
 
     .service-note {
@@ -425,8 +479,9 @@
       img.className   = 'float-img';
 
       // Posición horizontal aleatoria con margen
-      const margen    = 80;
-      const xInicio   = margen + Math.random() * (W() - 160 - margen * 2);
+      const margen    = 30;
+      const areaWidth = W() + 400;
+      const xInicio   = -200 + Math.random() * areaWidth;
 
       // Tamaño con variación
       const escala    = 0.7 + Math.random() * 0.7;   // entre 0.7x y 1.4x
@@ -436,7 +491,7 @@
 
       // Duración y ondulación únicos por imagen
       const duracion   = 9000 + Math.random() * 8000;   // 7–13 s
-      const amplitud   = 30  + Math.random() * 50;       // 30–80 px de lado a lado
+      const amplitud   = 80  + Math.random() * 90;       // 80–170 px de lado a lado
       const fase       = Math.random() * Math.PI * 2;    // fase aleatoria
 
       canvas.appendChild(img);
