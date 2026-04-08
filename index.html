@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AUGI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>AUGI | Producción Audiovisual</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
@@ -34,7 +34,6 @@
       opacity: 0.4;
     }
 
-    /* ── NAVBAR ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -50,21 +49,20 @@
     }
 
     .nav-logo {
-      height: 55px;
+      height: 50px;
       opacity: 0;
       animation: fadeIn 0.5s ease 0.3s forwards;
     }
 
-    /* ── HERO ── */
     .hero {
-      min-height: 80vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       position: relative;
       overflow: hidden;
-      padding: 80px 24px 40px;
+      padding: 100px 24px 60px;
     }
 
     .luz {
@@ -113,12 +111,13 @@
     .float-img {
       position: absolute;
       bottom: -200px;
-      width: 160px;
-      height: 110px;
+      width: 220px;
+      height: 150px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 8px;
       opacity: 0;
       will-change: transform, opacity;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
     .hero-logo-wrap {
@@ -134,10 +133,11 @@
       width: 100%;
       max-width: 800px;
       text-align: center;
+      margin-bottom: 20px;
     }
 
     .hero-tagline {
-      font-weight: 700;
+      font-weight: bold;
       font-size: clamp(22px, 5vw, 44px);
       letter-spacing: 1.5px;
       text-transform: uppercase;
@@ -146,229 +146,298 @@
       opacity: 0;
       animation: fadeUpSimple 1s ease 1.4s forwards;
       line-height: 1.15;
+      margin-bottom: 2px;
     }
 
     @keyframes fadeIn { to { opacity: 1; } }
     @keyframes fadeUpSimple { to { opacity: 1; transform: translateY(0); } }
 
-    /* ── SERVICIOS ── */
     .services-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
+      font-size: 18px;
       font-weight: normal;
       text-align: center;
       color: var(--acento);
-      margin-bottom: 14px;
+      margin-bottom: 8px;
       margin-top: 8px;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      z-index: 2;
+      position: relative;
     }
 
-    .service-slider {
+    .categories-container {
       width: 100%;
-      max-width: 1080px;
+      max-width: 300px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 24px;
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      padding: 0 16px;
     }
 
-    @media (min-width: 700px) {
-      .service-slider {
-        display: grid;
-        grid-template-columns: 1.35fr 0.85fr;
-        align-items: start;
-      }
-    }
-
-    .slider-card {
+    .category-card {
       position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.02);
-      box-shadow: 0 16px 36px rgba(0,0,0,0.2);
-      transition: opacity 0.35s ease, transform 0.35s ease;
       width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
-    .slider-image-wrap {
+    .category-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 28px rgba(65,200,253,0.15);
+      filter: brightness(1.02);
+    }
+
+    .category-card:active {
+      transform: scale(0.98);
+    }
+
+    .category-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+    }
+
+    .category-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .category-btn {
+      background: rgba(15,15,15,0.85);
+      backdrop-filter: blur(12px);
+      border: 0px solid rgba(65,200,253,0.4);
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--acento);
+      transition: all 0.25s ease;
+      pointer-events: none;
+    }
+
+    .category-card:hover .category-btn {
+      background: rgba(65,200,253,0.2);
+      border-color: var(--acento);
+    }
+
+    /* POPUP DE CATEGORÍA - z-index 250 (por debajo del navbar que es 300) */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: rgba(0, 0, 0, 0.322);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .popup-overlay.visible {
+      display: flex;
+    }
+
+    .popup-container {
+      width: 100%;
+      max-width: 440px;
+      background: #161616a8;
+      border: 1px solid rgba(85, 85, 85, 0.521);
+      border-radius: 16px;
+      color: var(--blanco);
+      position: relative;
+      font-family: 'Montserrat', sans-serif;
+      max-height: calc(90vh - 90px);
+      overflow-y: auto;
+    }
+
+    .popup-container::-webkit-scrollbar { width: 4px; }
+    .popup-container::-webkit-scrollbar-track { background: transparent; }
+    .popup-container::-webkit-scrollbar-thumb { background: rgba(65,200,253,0.2); border-radius: 4px; }
+
+    .popup-close {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+      z-index: 25;
+    }
+
+    .popup-close:hover {
+      color: var(--blanco);
+    }
+
+    .popup-slider-card {
+      margin: 20px 20px 16px 30px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border: 0px solid rgba(255,255,255,0.08);
+    }
+
+    .popup-slider-image-wrap {
       position: relative;
       width: 100%;
       aspect-ratio: 4 / 3;
       overflow: hidden;
-      background: #050506;
     }
 
-    .service-image {
-      width: 100%; height: 100%;
+    .popup-service-image {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      object-position: center;
       display: block;
     }
 
-    .service-overlay {
+    .popup-service-overlay {
       position: absolute;
-      left: 0; right: 0; bottom: 0;
-      padding: 8px 10px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 8px 8px;
       background: rgba(0,0,0,0.82);
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 0px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    .service-title {
-      display: block;
+    .service-icon-img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .popup-service-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(12px, 4vw, 18px);
+      font-size: clamp(12px, 4vw, 16px);
       font-weight: bold;
       color: var(--acento);
       text-transform: uppercase;
-      text-align: center;
       margin: 0;
     }
 
-    .service-right {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    .popup-slider-info {
+      padding: 16px 20px 20px;
     }
 
-    .slider-info {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .service-description {
+    .popup-service-description {
       color: var(--blanco);
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(14px, 3.5vw, 18px);
-      line-height: 1.2;
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      text-align: center;
     }
 
-    .btn-group {
+    .popup-btn-group {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .demo-button {
-      display: block;
+    .popup-demo-button, .popup-solicitar-button {
       width: 100%;
       padding: 12px 16px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .popup-demo-button {
       color: var(--acento);
       background: rgba(33,118,151,0.1);
       border: 1px solid rgba(65,200,253,0.25);
-      border-radius: 100px;
-      text-transform: uppercase;
       letter-spacing: 3px;
       font-weight: normal;
-      font-size: 15px;
-      font-family: 'Lato', sans-serif;
-      cursor: pointer;
-      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
-      touch-action: manipulation;
-      text-align: center;
-      backdrop-filter: blur(8px);
+      font-size: 14px;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      .demo-button:hover {
-        background: rgba(65,200,253,0.2);
-        transform: translateY(-1px);
-        border-color: rgba(65,200,253,0.6);
-      }
-    }
-
-    /* Botones de navegación flotantes DENTRO de la caja */
-    .slider-nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 24px;
-      height: 38px;
-      border-radius: 30%;
-      background: rgba(15, 15, 15, 0.603);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--blanco);
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      touch-action: manipulation;
-      z-index: 20;
-      backdrop-filter: blur(4px);
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .slider-nav-btn:hover {
-        transform: translateY(-50%) scale(1.05);
-        background: rgba(65,200,253,0.15);
-      }
-    }
-
-    .btn-prev {
-      left: 12px;
-    }
-    .btn-next {
-      right: 12px;
-    }
-
-    /* Los controles viejos los ocultamos porque ahora están dentro */
-    .slider-controls {
-      display: none;
-    }
-
-    .solicitar-button {
-      display: block;
-      width: 100%;
-      padding: 12px 16px;
+    .popup-solicitar-button {
       color: var(--acento);
       background: rgba(33,118,151,0.1);
       border: 1px solid rgba(65,200,253,0.35);
-      border-radius: 100px;
-      text-transform: uppercase;
       letter-spacing: 1px;
-      font-weight: bold;
-      font-size: 16px;
-      font-family: 'Montserrat', sans-serif;
-      cursor: pointer;
-      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
-      touch-action: manipulation;
-      text-align: center;
-      position: relative;
-      backdrop-filter: blur(10px);
     }
 
-    .solicitar-button::before {
-      content: '';
+    .popup-demo-button:hover, .popup-solicitar-button:hover {
+      transform: translateY(-1px);
+    }
+    .popup-demo-button:hover {
+      background: rgba(65,200,253,0.2);
+      border-color: rgba(65,200,253,0.6);
+    }
+    .popup-solicitar-button:hover {
+      background: rgba(65,200,253,0.35);
+      border-color: rgba(65,200,253,0.6);
+    }
+
+    .popup-nav-btn {
       position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: linear-gradient(45deg, rgba(65,200,253,0.2), rgba(65,200,253,0.05));
-      opacity: 0.5;
-      z-index: -1;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 35px;
+      border-radius: 20px;
+      background: rgba(12, 12, 12, 0.596);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--blanco);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s ease;
+      top: 150px;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      .solicitar-button:hover {
-        background: rgba(65,200,253,0.35);
-        transform: translateY(-1px);
-        border-color: rgba(65,200,253,0.6);
-      }
+    .popup-nav-btn:hover {
+      transform: translateY(-50%) scale(1.05);
+      background: rgba(65,200,253,0.15);
     }
 
-    /* ══════════════════════════════════════
-       OVERLAY DE CONTACTO (sin cambios)
-    ══════════════════════════════════════ */
+    .popup-btn-prev {
+      left: 38px;
+    }
+    .popup-btn-next {
+      right: 28px;
+    }
+
+    /* OVERLAY DE CONTACTO - z-index 250 también */
     #overlayContacto {
       display: none;
       position: fixed;
       inset: 0;
-      z-index: 200;
+      z-index: 250;
       background: rgba(0, 0, 0, 0.322);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
@@ -384,8 +453,8 @@
     #panelContacto {
       width: 100%;
       max-width: 440px;
-      background: #000000ab;
-      border: 0px solid rgb(36, 193, 255);
+      background: #161616a8;
+      border: 1px solid rgba(85, 85, 85, 0.521);
       border-radius: 24px;
       padding: 24px 22px 20px;
       color: var(--blanco);
@@ -395,11 +464,7 @@
       overflow-y: auto;
     }
 
-    #panelContacto::-webkit-scrollbar { width: 4px; }
-    #panelContacto::-webkit-scrollbar-track { background: transparent; }
-    #panelContacto::-webkit-scrollbar-thumb { background: rgba(65,200,253,0.2); border-radius: 4px; }
-
-    #btnCerrar {
+    #btnCerrarContacto {
       position: absolute;
       top: 14px; right: 16px;
       background: none;
@@ -411,7 +476,7 @@
       transition: color 0.2s;
     }
 
-    #btnCerrar:hover { color: var(--blanco); }
+    #btnCerrarContacto:hover { color: var(--blanco); }
 
     .etiqueta-seccion {
       font-size: 10px;
@@ -424,7 +489,7 @@
     }
 
     #nombreServicioContacto {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: bold;
       color: var(--blanco);
       margin: 0 0 6px;
@@ -433,14 +498,14 @@
     }
 
     .pista-contacto {
-      font-size: 14px;
+      font-size: 12px;
       color: #666;
       margin: 0 0 16px;
       line-height: 1.5;
     }
 
     .campo-grupo {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .campo-grupo label {
@@ -469,8 +534,7 @@
       color-scheme: dark;
     }
 
-    .campo-grupo input[type="text"]:focus,
-    .campo-grupo input[type="date"]:focus {
+    .campo-grupo input:focus {
       border-color: rgba(65,200,253,0.45);
     }
 
@@ -480,10 +544,15 @@
       width: 100%;
       height: 175px;
       border-radius: 0px;
-      border: 0px solid rgba(65, 200, 253, 0.13);
       overflow: hidden;
       margin-top: 6px;
       background: #000000;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    #contenedorMapa.visible {
+      opacity: 1;
     }
 
     #mapaLeaflet .leaflet-tile {
@@ -542,12 +611,10 @@
 
     #btnWhatsapp.listo .icono-wa { opacity: 1; }
 
-    @media (hover: hover) and (pointer: fine) {
-      #btnWhatsapp.listo:hover {
-        background: rgba(0, 107, 46, 0.9);
-        border-color: rgba(37,211,102,0.7);
-        transform: translateY(-1px);
-      }
+    #btnWhatsapp.listo:hover {
+      background: rgba(0, 107, 46, 0.9);
+      border-color: rgba(37,211,102,0.7);
+      transform: translateY(-1px);
     }
   </style>
 </head>
@@ -557,7 +624,6 @@
     <img src="recursos/interfaz/logotitulo.png" class="nav-logo" alt="Logo AUGI">
   </nav>
 
-  <!-- ══ SECCIÓN PRINCIPAL ══ -->
   <section class="hero">
     <div class="luz luz-1"></div>
     <div class="luz luz-2"></div>
@@ -565,81 +631,83 @@
     <div class="float-canvas" id="floatCanvas"></div>
 
     <div class="hero-logo-wrap">
-      <h1 class="hero-tagline">Producción audiovisual profesional para eventos sociales y empresariales en Monterrey</h1>
+      <h1 class="hero-tagline">Producción profesional en Monterrey</h1>
     </div>
 
     <h2 class="services-title">Te ofrecemos:</h2>
 
-    <div class="service-slider">
-      <div class="service-left">
-        <div class="slider-card" id="serviceCard">
-          <div class="slider-image-wrap">
-            <img src="recursos/slider/boda.JPG" alt="Producción de Boda" class="service-image" id="serviceImage">
-            <!-- Botones flotantes DENTRO de la caja (sin puntos/dots) -->
-            <button class="slider-nav-btn btn-prev" id="prevService" aria-label="Servicio anterior">&#8249;</button>
-            <button class="slider-nav-btn btn-next" id="nextService" aria-label="Servicio siguiente">&#8250;</button>
-            <div class="service-overlay">
-              <h3 class="service-title" id="serviceTitle">Producción de Boda</h3>
-            </div>
-          </div>
+    <div class="categories-container">
+      <div class="category-card" data-category="social">
+        <img src="recursos/slider/boda.JPG" alt="Eventos Sociales" class="category-image">
+        <div class="category-overlay">
+          <div class="category-btn">Sociales</div>
         </div>
       </div>
-
-      <div class="service-right">
-        <div class="slider-info">
-          <p class="service-description" id="serviceDescription">
-            Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.
-          </p>
-          <div class="btn-group">
-            <button class="demo-button" id="demoButton">Ver demo reel</button>
-            <button class="solicitar-button" id="solicitarButton">Contáctanos</button>
-          </div>
+      <div class="category-card" data-category="corporate">
+        <img src="recursos/slider/placeholder.jfif" alt="Eventos Corporativos" class="category-image">
+        <div class="category-overlay">
+          <div class="category-btn">Corporativo</div>
         </div>
-        <!-- Eliminamos el div .slider-controls que estaba aquí abajo -->
       </div>
     </div>
   </section>
 
-  <!-- ══ OVERLAY DE CONTACTO ══ -->
+  <!-- POPUP CATEGORÍA -->
+  <div id="popupCategoria" class="popup-overlay">
+    <div class="popup-container">
+      <button class="popup-close" id="closePopupBtn">&times;</button>
+      <div class="popup-slider-card">
+        <div class="popup-slider-image-wrap" id="popupImageWrap">
+          <img src="" alt="" class="popup-service-image" id="popupServiceImage">
+          <div class="popup-service-overlay" id="popupServiceOverlay"></div>
+        </div>
+      </div>
+      <div class="popup-slider-info">
+        <p class="popup-service-description" id="popupServiceDescription"></p>
+        <div class="popup-btn-group">
+          <button class="popup-demo-button" id="popupDemoButton">Ver demo reel</button>
+          <button class="popup-solicitar-button" id="popupSolicitarButton">Contáctanos</button>
+        </div>
+      </div>
+      <button class="popup-nav-btn popup-btn-prev" id="popupPrevBtn">‹</button>
+      <button class="popup-nav-btn popup-btn-next" id="popupNextBtn">›</button>
+    </div>
+  </div>
+
+  <!-- OVERLAY DE CONTACTO -->
   <div id="overlayContacto" role="dialog" aria-modal="true" aria-label="Formulario de contacto">
     <div id="panelContacto">
-
-      <button id="btnCerrar" aria-label="Cerrar panel">&#215;</button>
-
+      <button id="btnCerrarContacto" aria-label="Cerrar panel">&#215;</button>
       <span class="etiqueta-seccion">Contactar para</span>
       <p id="nombreServicioContacto">–</p>
-      <p class="pista-contacto">Para continuar, porfavor ayudenos con informacion de su evento.</p>
+      <p class="pista-contacto">Para continuar, por favor ayúdenos con información de su evento.</p>
 
-      <!-- Lugar del evento -->
       <div class="campo-grupo">
         <label for="campoBusqueda">Lugar de su evento:</label>
-        <input id="campoBusqueda" type="text" placeholder="Escribir direccion del salon/lugar" autocomplete="off"/>
+        <input id="campoBusqueda" type="text" placeholder="Escribir dirección del salón/lugar" autocomplete="off"/>
         <div id="contenedorMapa">
           <div id="mapaLeaflet" style="width:100%; height:100%;"></div>
         </div>
         <p id="textoUbicacion"></p>
       </div>
 
-      <!-- Fecha -->
       <div class="campo-grupo">
         <label for="campoFecha">Fecha de su evento:</label>
         <input id="campoFecha" type="date"/>
       </div>
 
-      <!-- Botón WhatsApp -->
       <button id="btnWhatsapp" disabled>
         <img src="recursos/interfaz/whatsappicon.png" alt="" class="icono-wa"/>
         Contactar
       </button>
-
     </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    /* ════════════════════════════════════
+    /* ============================================
        IMÁGENES FLOTANTES
-    ════════════════════════════════════ */
+    ============================================ */
     const imagenes = [
       'recursos/float/1.JPG',
       'recursos/float/2.JPG',
@@ -662,32 +730,32 @@
 
       const areaAncho = ancho() + 400;
       const xInicio   = -200 + Math.random() * areaAncho;
-      const escala    = 0.4 + Math.random() * 0.4;
+      const escala    = 0.6 + Math.random() * 0.5;
 
-      img.style.width  = (120 * escala) + 'px';
-      img.style.height = (80  * escala) + 'px';
+      img.style.width  = (180 * escala) + 'px';
+      img.style.height = (120 * escala) + 'px';
       img.style.left   = xInicio + 'px';
 
-      const duracion    = 9000 + Math.random() * 8000;
-      const amplitud    = 80   + Math.random() * 90;
+      const duracion    = 10000 + Math.random() * 8000;
+      const amplitud    = 100 + Math.random() * 100;
       const fase        = Math.random() * Math.PI * 2;
 
       lienzo.appendChild(img);
 
       const inicio      = performance.now();
-      const alturaTotal = alto() + 940;
+      const alturaTotal = alto() + 1000;
 
       function animar(ahora) {
         const progreso = (ahora - inicio) / duracion;
         if (progreso >= 1) { img.remove(); return; }
 
         const y = alto() - progreso * alturaTotal;
-        const x = xInicio + Math.sin(fase + progreso * Math.PI * 4) * amplitud;
+        const x = xInicio + Math.sin(fase + progreso * Math.PI * 3) * amplitud;
 
         let opacidad;
-        if      (progreso < 0.12) opacidad = (progreso / 0.12) * 0.55;
-        else if (progreso > 0.78) opacidad = ((1 - progreso) / 0.22) * 0.55;
-        else                      opacidad = 0.55;
+        if      (progreso < 0.12) opacidad = (progreso / 0.12) * 0.6;
+        else if (progreso > 0.78) opacidad = ((1 - progreso) / 0.22) * 0.6;
+        else                      opacidad = 0.6;
 
         img.style.transform = `translate(${x - xInicio}px, ${y}px)`;
         img.style.opacity   = opacidad;
@@ -697,93 +765,194 @@
       requestAnimationFrame(animar);
     }
 
-    setTimeout(() => { lanzarImagen(); setInterval(lanzarImagen, 800); }, 10);
+    // Iniciar inmediatamente
+    for (let i = 0; i < 4; i++) {
+      setTimeout(() => lanzarImagen(), i * 200);
+    }
+    setInterval(lanzarImagen, 2000);
 
-    /* ════════════════════════════════════
-       SLIDER DE SERVICIOS
-    ════════════════════════════════════ */
-    const servicios = [
-      {
-        titulo:      'Producción de XV Años',
-        descripcion: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
-        imagen:      'recursos/slider/xv.JPG'
-      },
-      {
-        titulo:      'Evento Corporativo',
-        descripcion: 'Grabación de eventos empresariales con producción pulida y entrega de contenido listo para presentar.',
-        imagen:      'recursos/slider/placeholder.jfif'
-      },
-      {
-        titulo:      'Producción de Boda',
-        descripcion: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
-        imagen:      'recursos/slider/boda.JPG'
-      }
-    ];
+    /* ============================================
+       DATOS DE SERVICIOS
+    ============================================ */
+    const serviciosData = {
+      social: [
+        {
+          titulo: 'Boda',
+          descripcion: 'Cobertura completa de bodas con fotografía y video profesional, edición incluida y entrega digital.',
+          imagen: 'recursos/slider/boda.JPG',
+          icono: 'boda.png'
+        },
+        {
+          titulo: 'XV Años',
+          descripcion: 'Producción de XV años con la mejor calidad, capturando cada momento especial de esta celebración única.',
+          imagen: 'recursos/slider/xv.JPG',
+          icono: 'xv.png'
+        }
+      ],
+      corporate: [
+        {
+          titulo: 'CCTV',
+          descripcion: 'Instalación y mantenimiento de sistemas de videovigilancia para tu empresa o negocio.',
+          imagen: 'recursos/slider/placeholder.jfif',
+          icono: 'cctv.png'
+        },
+        {
+          titulo: 'Grabación de Eventos',
+          descripcion: 'Cobertura profesional de conferencias, convenciones y eventos corporativos.',
+          imagen: 'recursos/slider/placeholder.jfif',
+          icono: 'grabacion.png'
+        }
+      ]
+    };
 
-    const imgServicio     = document.getElementById('serviceImage');
-    const tituloServicio  = document.getElementById('serviceTitle');
-    const descServicio    = document.getElementById('serviceDescription');
-    const tarjetaServicio = document.getElementById('serviceCard');
-    let   indiceServicio  = 2;
+    let categoriaActual = 'social';
+    let indiceActual = 0;
+    let serviciosActuales = serviciosData.social;
+    let animando = false;
 
-    function cambiarServicio(indice, direccion) {
-      const salidaX  = direccion === 'siguiente' ? -60 : 60;
-      const entradaX = direccion === 'siguiente' ?  60 : -60;
+    /* ============================================
+       ELEMENTOS DEL POPUP DE CATEGORÍA
+    ============================================ */
+    const popupOverlay = document.getElementById('popupCategoria');
+    const popupImg = document.getElementById('popupServiceImage');
+    const popupDesc = document.getElementById('popupServiceDescription');
+    const popupServiceOverlay = document.getElementById('popupServiceOverlay');
+    const popupPrev = document.getElementById('popupPrevBtn');
+    const popupNext = document.getElementById('popupNextBtn');
+    const closePopup = document.getElementById('closePopupBtn');
+    const popupDemoBtn = document.getElementById('popupDemoButton');
+    const popupSolicitarBtn = document.getElementById('popupSolicitarButton');
 
-      tarjetaServicio.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-      tarjetaServicio.style.opacity    = '0';
-      tarjetaServicio.style.transform  = `translateX(${salidaX}px) scale(0.92)`;
+    /* ============================================
+       FUNCIÓN PARA ACTUALIZAR SLIDER CON ANIMACIÓN
+    ============================================ */
+    function actualizarSlider(direccion) {
+      if (animando) return;
+      animando = true;
+
+      const servicio = serviciosActuales[indiceActual];
+      
+      // Animación de salida
+      popupImg.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      popupImg.style.opacity = '0';
+      popupImg.style.transform = `translateX(${direccion === 'next' ? '-30px' : '30px'})`;
+      
+      popupDesc.style.transition = 'opacity 0.25s ease';
+      popupDesc.style.opacity = '0';
+      
+      popupServiceOverlay.style.transition = 'opacity 0.25s ease';
+      popupServiceOverlay.style.opacity = '0';
 
       setTimeout(() => {
-        const s = servicios[indice];
-        imgServicio.src            = s.imagen;
-        imgServicio.alt            = s.titulo;
-        tituloServicio.textContent = s.titulo;
-        descServicio.textContent   = s.descripcion;
-
-        tarjetaServicio.style.transition = 'none';
-        tarjetaServicio.style.opacity    = '0';
-        tarjetaServicio.style.transform  = `translateX(${entradaX}px) scale(0.92)`;
-
+        // Cambiar contenido
+        popupImg.src = servicio.imagen;
+        popupImg.alt = servicio.titulo;
+        popupDesc.textContent = servicio.descripcion;
+        
+        const rutaIcono = `recursos/slider/iconos/${servicio.icono}`;
+        popupServiceOverlay.innerHTML = `
+          <img src="${rutaIcono}" class="service-icon-img" alt="${servicio.titulo}">
+          <span class="popup-service-title">${servicio.titulo}</span>
+        `;
+        
+        // Preparar animación de entrada
+        popupImg.style.transform = `translateX(${direccion === 'next' ? '30px' : '-30px'})`;
+        
         setTimeout(() => {
-          tarjetaServicio.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-          tarjetaServicio.style.opacity    = '1';
-          tarjetaServicio.style.transform  = 'translateX(0) scale(1)';
+          popupImg.style.opacity = '1';
+          popupImg.style.transform = 'translateX(0)';
+          popupDesc.style.opacity = '1';
+          popupServiceOverlay.style.opacity = '1';
+          
+          setTimeout(() => {
+            animando = false;
+          }, 350);
         }, 50);
-      }, 350);
+      }, 300);
     }
 
-    // Asignamos los eventos a los NUEVOS botones flotantes
-    document.getElementById('prevService').addEventListener('click', () => {
-      indiceServicio = (indiceServicio - 1 + servicios.length) % servicios.length;
-      cambiarServicio(indiceServicio, 'anterior');
+    /* ============================================
+       CAMBIAR DE SLIDE
+    ============================================ */
+    function cambiarSlide(direccion) {
+      if (direccion === 'next') {
+        indiceActual = (indiceActual + 1) % serviciosActuales.length;
+        actualizarSlider('next');
+      } else {
+        indiceActual = (indiceActual - 1 + serviciosActuales.length) % serviciosActuales.length;
+        actualizarSlider('prev');
+      }
+    }
+
+    /* ============================================
+       ABRIR CATEGORÍA
+    ============================================ */
+    function abrirCategoria(categoria) {
+      categoriaActual = categoria;
+      serviciosActuales = serviciosData[categoria];
+      indiceActual = 0;
+      
+      const servicio = serviciosActuales[0];
+      popupImg.src = servicio.imagen;
+      popupImg.style.opacity = '1';
+      popupImg.style.transform = 'translateX(0)';
+      popupDesc.textContent = servicio.descripcion;
+      popupDesc.style.opacity = '1';
+      
+      const rutaIcono = `recursos/slider/iconos/${servicio.icono}`;
+      popupServiceOverlay.innerHTML = `
+        <img src="${rutaIcono}" class="service-icon-img" alt="${servicio.titulo}">
+        <span class="popup-service-title">${servicio.titulo}</span>
+      `;
+      popupServiceOverlay.style.opacity = '1';
+      
+      popupOverlay.classList.add('visible');
+    }
+
+    /* ============================================
+       CERRAR POPUP DE CATEGORÍA
+    ============================================ */
+    function cerrarPopup() {
+      popupOverlay.classList.remove('visible');
+    }
+
+    /* ============================================
+       EVENTOS DE LAS TARJETAS PRINCIPALES
+    ============================================ */
+    document.querySelectorAll('.category-card').forEach(tarjeta => {
+      tarjeta.addEventListener('click', () => {
+        abrirCategoria(tarjeta.dataset.category);
+      });
     });
 
-    document.getElementById('nextService').addEventListener('click', () => {
-      indiceServicio = (indiceServicio + 1) % servicios.length;
-      cambiarServicio(indiceServicio, 'siguiente');
+    popupPrev.addEventListener('click', () => cambiarSlide('prev'));
+    popupNext.addEventListener('click', () => cambiarSlide('next'));
+    closePopup.addEventListener('click', cerrarPopup);
+    popupOverlay.addEventListener('click', (e) => {
+      if (e.target === popupOverlay) cerrarPopup();
     });
 
-    document.getElementById('demoButton').addEventListener('click', () => {
-      alert('Demo reel próximamente disponible. En breve agregaremos el video de YouTube para este servicio.');
-    });
-
-    /* ════════════════════════════════════
-       POPUP DE CONTACTO
-    ════════════════════════════════════ */
-    const overlayContacto        = document.getElementById('overlayContacto');
+    /* ============================================
+       CONTACTO - AL CERRAR REGRESA AL POPUP
+    ============================================ */
+    const overlayContacto = document.getElementById('overlayContacto');
     const nombreServicioContacto = document.getElementById('nombreServicioContacto');
-    const campoBusqueda          = document.getElementById('campoBusqueda');
-    const campoFecha             = document.getElementById('campoFecha');
-    const textoUbicacion         = document.getElementById('textoUbicacion');
-    const btnWhatsapp            = document.getElementById('btnWhatsapp');
+    const campoBusqueda = document.getElementById('campoBusqueda');
+    const campoFecha = document.getElementById('campoFecha');
+    const textoUbicacion = document.getElementById('textoUbicacion');
+    const btnWhatsapp = document.getElementById('btnWhatsapp');
+    const contenedorMapa = document.getElementById('contenedorMapa');
+    const btnCerrarContacto = document.getElementById('btnCerrarContacto');
 
-    let mapa              = null;
-    let marcador          = null;
-    let latSeleccionada   = null;
-    let lngSeleccionada   = null;
+    let mapa = null;
+    let marcador = null;
+    let latSeleccionada = null;
+    let lngSeleccionada = null;
     let direccionCompleta = '';
 
+    /* ============================================
+       ICONO DEL MARCADOR
+    ============================================ */
     function iconoMarcador() {
       return L.divIcon({
         html: '<div style="width:14px;height:14px;border-radius:50%;background:#41c8fd;border:2px solid #fff;box-shadow:0 0 8px rgba(65,200,253,0.8);"></div>',
@@ -793,6 +962,9 @@
       });
     }
 
+    /* ============================================
+       INICIAR MAPA
+    ============================================ */
     function iniciarMapa() {
       if (mapa) {
         setTimeout(() => mapa.invalidateSize(), 80);
@@ -813,14 +985,20 @@
       });
     }
 
+    /* ============================================
+       COLOCAR MARCADOR
+    ============================================ */
     function colocarMarcador(lat, lng) {
       latSeleccionada = lat.toFixed(6);
       lngSeleccionada = lng.toFixed(6);
       const latlng = L.latLng(lat, lng);
       if (marcador) marcador.setLatLng(latlng);
-      else          marcador = L.marker(latlng, { icon: iconoMarcador() }).addTo(mapa);
+      else marcador = L.marker(latlng, { icon: iconoMarcador() }).addTo(mapa);
     }
 
+    /* ============================================
+       GEOCODIFICACIÓN INVERSA
+    ============================================ */
     function geocodificacionInversa(lat, lng) {
       fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
         .then(r => r.json())
@@ -838,6 +1016,9 @@
         });
     }
 
+    /* ============================================
+       BUSCAR DIRECCIÓN
+    ============================================ */
     function buscarDireccion() {
       const consulta = campoBusqueda.value.trim();
       if (!consulta) return;
@@ -860,9 +1041,12 @@
         });
     }
 
+    /* ============================================
+       VERIFICAR SI EL FORMULARIO ESTÁ LISTO
+    ============================================ */
     function verificarListo() {
       const tieneUbicacion = latSeleccionada && lngSeleccionada;
-      const tieneFecha     = campoFecha.value !== '';
+      const tieneFecha = campoFecha.value !== '';
       if (tieneUbicacion && tieneFecha) {
         btnWhatsapp.disabled = false;
         btnWhatsapp.classList.add('listo');
@@ -872,55 +1056,84 @@
       }
     }
 
+    /* ============================================
+       ABRIR CONTACTO (cierra el popup de categoría)
+    ============================================ */
     function abrirContacto() {
-      nombreServicioContacto.textContent = servicios[indiceServicio].titulo;
+      const servicioActual = serviciosActuales[indiceActual];
+      nombreServicioContacto.textContent = servicioActual.titulo;
+      
+      cerrarPopup(); // Cierra el popup de categoría
       overlayContacto.classList.add('visible');
 
-      // Resetear estado anterior
-      latSeleccionada       = null;
-      lngSeleccionada       = null;
-      direccionCompleta     = '';
-      campoBusqueda.value   = '';
-      campoFecha.value      = '';
+      latSeleccionada = null;
+      lngSeleccionada = null;
+      direccionCompleta = '';
+      campoBusqueda.value = '';
+      campoFecha.value = '';
       textoUbicacion.textContent = '';
-      btnWhatsapp.disabled  = true;
+      btnWhatsapp.disabled = true;
       btnWhatsapp.classList.remove('listo');
 
-      setTimeout(iniciarMapa, 80);
+      setTimeout(() => {
+        iniciarMapa();
+        contenedorMapa.classList.add('visible');
+      }, 80);
     }
 
-    function cerrarContacto() {
+    /* ============================================
+       CERRAR CONTACTO Y VOLVER AL POPUP DE CATEGORÍA
+    ============================================ */
+    function cerrarContactoYVolver() {
       overlayContacto.classList.remove('visible');
+      contenedorMapa.classList.remove('visible');
+      // Reabrir el popup de categoría con la misma categoría donde estaba
+      abrirCategoria(categoriaActual);
     }
 
-    document.getElementById('btnCerrar').addEventListener('click', cerrarContacto);
-
+    /* ============================================
+       EVENTOS DE CONTACTO
+    ============================================ */
+    btnCerrarContacto.addEventListener('click', cerrarContactoYVolver);
     overlayContacto.addEventListener('click', function(e) {
-      if (e.target === overlayContacto) cerrarContacto();
+      if (e.target === overlayContacto) cerrarContactoYVolver();
     });
-
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') cerrarContacto();
+      if (e.key === 'Escape') {
+        if (overlayContacto.classList.contains('visible')) {
+          cerrarContactoYVolver();
+        } else {
+          cerrarPopup();
+        }
+      }
     });
 
     campoBusqueda.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') buscarDireccion();
     });
-
     campoFecha.addEventListener('change', verificarListo);
 
-    document.getElementById('solicitarButton').addEventListener('click', abrirContacto);
+    /* ============================================
+       BOTONES DEL POPUP SECUNDARIO
+    ============================================ */
+    popupDemoBtn.addEventListener('click', () => {
+      alert('PENDIENTE');
+    });
 
+    popupSolicitarBtn.addEventListener('click', abrirContacto);
+
+    /* ============================================
+       ENVÍO DE WHATSAPP
+    ============================================ */
     btnWhatsapp.addEventListener('click', function() {
       if (btnWhatsapp.disabled) return;
       const [anio, mes, dia] = campoFecha.value.split('-');
-      const fechaFormateada  = `${dia}-${mes}-${anio}`;
-      const servicio         = servicios[indiceServicio].titulo;
-      const direccionCorta   = direccionCompleta.split(',').slice(0, 4).join(',').trim();
-      const mensaje = `Hola, solicitamos el servicio de ${servicio} para la fecha ${fechaFormateada} en ${direccionCorta}.\n\nDetalles: `;
-      window.open(`https://wa.me/528124384370?text=${encodeURIComponent(mensaje)}`, '_blank');
+      const fechaFormateada = `${dia}-${mes}-${anio}`;
+      const servicio = serviciosActuales[indiceActual].titulo;
+      const direccionCorta = direccionCompleta.split(',').slice(0, 4).join(',').trim();
+      const mensaje = `Hola, solicito el servicio de ${servicio} para la fecha ${fechaFormateada} en ${direccionCorta}.`;
+      window.open(`https://wa.me/5281308030423?text=${encodeURIComponent(mensaje)}`, '_blank');
     });
   </script>
-
 </body>
 </html>
