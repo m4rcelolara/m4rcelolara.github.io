@@ -211,7 +211,7 @@
     .service-overlay {
       position: absolute;
       left: 0; right: 0; bottom: 0;
-      padding: 12px 10px;
+      padding: 8px 10px;
       background: rgba(0,0,0,0.82);
       border-top: 1px solid rgba(255,255,255,0.08);
     }
@@ -280,32 +280,45 @@
       }
     }
 
-    .slider-controls {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-    }
-
-    .slider-btn {
-      width: 56px; height: 56px;
-      border-radius: 50%;
+    /* Botones de navegación flotantes DENTRO de la caja */
+    .slider-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 38px;
+      border-radius: 30%;
+      background: rgba(15, 15, 15, 0.603);
       border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(15,15,15,0.85);
       color: var(--blanco);
-      font-size: 28px;
+      font-size: 18px;
       cursor: pointer;
       transition: transform 0.2s ease, background 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       touch-action: manipulation;
+      z-index: 20;
+      backdrop-filter: blur(4px);
     }
 
     @media (hover: hover) and (pointer: fine) {
-      .slider-btn:hover {
-        transform: scale(1.05);
+      .slider-nav-btn:hover {
+        transform: translateY(-50%) scale(1.05);
         background: rgba(65,200,253,0.15);
       }
+    }
+
+    .btn-prev {
+      left: 12px;
+    }
+    .btn-next {
+      right: 12px;
+    }
+
+    /* Los controles viejos los ocultamos porque ahora están dentro */
+    .slider-controls {
+      display: none;
     }
 
     .solicitar-button {
@@ -348,7 +361,7 @@
     }
 
     /* ══════════════════════════════════════
-       OVERLAY DE CONTACTO
+       OVERLAY DE CONTACTO (sin cambios)
     ══════════════════════════════════════ */
     #overlayContacto {
       display: none;
@@ -561,6 +574,9 @@
         <div class="slider-card" id="serviceCard">
           <div class="slider-image-wrap">
             <img src="recursos/slider/boda.JPG" alt="Producción de Boda" class="service-image" id="serviceImage">
+            <!-- Botones flotantes DENTRO de la caja (sin puntos/dots) -->
+            <button class="slider-nav-btn btn-prev" id="prevService" aria-label="Servicio anterior">&#8249;</button>
+            <button class="slider-nav-btn btn-next" id="nextService" aria-label="Servicio siguiente">&#8250;</button>
             <div class="service-overlay">
               <h3 class="service-title" id="serviceTitle">Producción de Boda</h3>
             </div>
@@ -578,10 +594,7 @@
             <button class="solicitar-button" id="solicitarButton">Contáctanos</button>
           </div>
         </div>
-        <div class="slider-controls">
-          <button class="slider-btn" id="prevService" aria-label="Servicio anterior">&#8249;</button>
-          <button class="slider-btn" id="nextService" aria-label="Servicio siguiente">&#8250;</button>
-        </div>
+        <!-- Eliminamos el div .slider-controls que estaba aquí abajo -->
       </div>
     </div>
   </section>
@@ -739,6 +752,7 @@
       }, 350);
     }
 
+    // Asignamos los eventos a los NUEVOS botones flotantes
     document.getElementById('prevService').addEventListener('click', () => {
       indiceServicio = (indiceServicio - 1 + servicios.length) % servicios.length;
       cambiarServicio(indiceServicio, 'anterior');
