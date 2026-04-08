@@ -43,24 +43,24 @@
       justify-content: center;
       padding: 0 24px;
       height: 70px;
-      background: rgba(8,8,8,0.88);
+      background: rgba(8, 8, 8, 0.74);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(65,200,253,0.07);
     }
 
     .nav-logo {
-      height: 60px;
+      height: 55px;
       opacity: 0;
       animation: fadeIn 0.5s ease 0.3s forwards;
     }
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh;
+      min-height: 80vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       position: relative;
       overflow: hidden;
       padding: 80px 24px 40px;
@@ -71,40 +71,40 @@
       border-radius: 50%;
       filter: blur(80px);
       pointer-events: none;
-      z-index: 0;
+      z-index: -1;
     }
 
     .luz-1 {
       width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(65,200,253,0.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(65, 200, 253, 0.534) 0%, transparent 50%);
       top: 10%; left: 15%;
       animation: parpadeo 6s ease-in-out infinite;
     }
 
     .luz-2 {
       width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(65,200,253,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(65, 200, 253, 0.397) 0%, transparent 50%);
       bottom: 15%; right: 10%;
-      animation: parpadeo 8s ease-in-out 2s infinite;
+      animation: parpadeo 8s ease-in-out 1.5s infinite;
     }
 
     .luz-3 {
       width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(65,200,253,0.06) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(65,200,253,0.06) 0%, transparent 50%);
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       animation: parpadeo 5s ease-in-out 1s infinite;
     }
 
     @keyframes parpadeo {
-      0%, 100% { opacity: 0.6; }
-      50%       { opacity: 1;   }
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 0.8;   }
     }
 
     .float-canvas {
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 0;
       pointer-events: none;
       overflow: hidden;
     }
@@ -161,15 +161,16 @@
       background: var(--negro);
     }
 
-    .services h2 {
+    .services-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(22px, 5vw, 36px);
-      font-weight: bold;
+      font-size: 14px;
+      font-weight: normal;
       text-align: center;
       color: var(--acento);
-      margin-bottom: 48px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      margin-bottom: 14px;
+      margin-top: 8px;
+      letter-spacing: 1px;
+      text-transform: none;
     }
 
     /* ── SLIDER LAYOUT ── */
@@ -180,6 +181,8 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
+      position: relative;
+      z-index: 1;
     }
 
     /* En pantallas grandes: dos columnas */
@@ -223,16 +226,16 @@
     .service-overlay {
       position: absolute;
       left: 0; right: 0; bottom: 0;
-      padding: 12px 16px;
-      background: rgba(0,0,0,0.72);
-      backdrop-filter: blur(18px);
+      padding: 12px 10px;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(0px);
       border-top: 1px solid rgba(255,255,255,0.08);
     }
 
     .service-title {
       display: block;
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(16px, 4vw, 22px);
+      font-size: clamp(12px, 4vw, 18px);
       font-weight: bold;
       color: var(--acento);
       text-transform: uppercase;
@@ -257,9 +260,10 @@
       color: var(--blanco);
       font-family: 'Montserrat', sans-serif;
       font-size: clamp(14px, 3.5vw, 18px);
-      font-weight: bold;
-      line-height: 1.5;
-      opacity: 0.95;
+      font-weight: normal;
+      line-height: 1.2;
+      letter-spacing: 2;
+      opacity: 100%;
     }
 
     /* ── BOTONES ── */
@@ -274,18 +278,21 @@
       width: 100%;
       padding: 12px 16px;
       color: var(--acento);
-      background: rgba(65,200,253,0.05);
+      background: rgba(33, 118, 151, 0.1);
       border: 1px solid rgba(65,200,253,0.25);
       border-radius: 100px;
       text-transform: uppercase;
       letter-spacing: 3px;
-      font-weight: 700;
-      font-size: 13px;
-      font-family: 'Montserrat', sans-serif;
+      font-weight: normal;
+      font-size: 15px;
+      font-family: 'Lato', sans-serif;
       cursor: pointer;
-      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
       touch-action: manipulation;
       text-align: center;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0);
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -308,7 +315,7 @@
       height: 56px;
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(15,15,15,0.85);
+      background: rgba(15, 15, 15, 0.85);
       color: var(--blanco);
       font-size: 28px;
       cursor: pointer;
@@ -323,6 +330,56 @@
       .slider-btn:hover {
         transform: scale(1.05);
         background: rgba(65,200,253,0.15);
+      }
+    }
+
+    .solicitar-button {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      color: var(--acento);
+      background: rgba(33, 118, 151, 0.1);
+      border: 1px solid rgba(65,200,253,0.35);
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: bold;
+      font-size: 16px;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      touch-action: manipulation;
+      text-align: center;
+      position: relative;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0);
+    }
+
+    .solicitar-button::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(45deg, rgba(65,200,253,0.2), rgba(65,200,253,0.05));
+      opacity: 0.5;
+      z-index: -1;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .solicitar-button:hover {
+        background: rgba(65,200,253,0.35);
+        transform: translateY(-1px);
+        border-color: rgba(65,200,253,0.6);
+      }
+
+      .solicitar-button::before {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .solicitar-button:hover::before {
+        opacity: 1;
       }
     }
   </style>
@@ -342,10 +399,8 @@
     <div class="hero-logo-wrap">
       <h1 class="hero-tagline">Producción audiovisual profesional para eventos sociales y empresariales en Monterrey</h1>
     </div>
-  </section>
 
-  <section class="services">
-    <h2>Nuestros servicios</h2>
+    <h2 class="services-title">Te ofrecemos:</h2>
     <div class="service-slider">
 
       <div class="service-left">
@@ -366,7 +421,7 @@
           </p>
           <div class="btn-group">
             <button class="demo-button" id="demoButton">Ver demo reel</button>
-            <button class="demo-button" id="solicitarButton">Solicitar</button>
+            <button class="solicitar-button" id="solicitarButton">Solicitar</button>
           </div>
         </div>
         <div class="slider-controls">
@@ -402,10 +457,10 @@
       const margen    = 30;
       const areaWidth = W() + 400;
       const xInicio   = -200 + Math.random() * areaWidth;
-      const escala    = 0.7 + Math.random() * 0.7;
+      const escala    = 0.4 + Math.random() * 0.4;
 
-      img.style.width  = (160 * escala) + 'px';
-      img.style.height = (110 * escala) + 'px';
+      img.style.width  = (120 * escala) + 'px';
+      img.style.height = (80 * escala) + 'px';
       img.style.left   = xInicio + 'px';
 
       const duracion    = 9000 + Math.random() * 8000;
@@ -466,10 +521,13 @@
     const serviceCard        = document.getElementById('serviceCard');
     let   serviceIndex       = 2;
 
-    function updateService(index) {
+    function updateService(index, direction) {
+      const exitX   = direction === 'next' ? -60 : 60;
+      const enterX  = direction === 'next' ? 60 : -60;
+
       serviceCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
       serviceCard.style.opacity    = '0';
-      serviceCard.style.transform  = 'translateX(-60px) scale(0.92)';
+      serviceCard.style.transform  = `translateX(${exitX}px) scale(0.92)`;
 
       setTimeout(() => {
         const service           = services[index];
@@ -480,7 +538,7 @@
 
         serviceCard.style.transition = 'none';
         serviceCard.style.opacity    = '0';
-        serviceCard.style.transform  = 'translateX(60px) scale(0.92)';
+        serviceCard.style.transform  = `translateX(${enterX}px) scale(0.92)`;
 
         setTimeout(() => {
           serviceCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
@@ -492,12 +550,12 @@
 
     document.getElementById('prevService').addEventListener('click', () => {
       serviceIndex = (serviceIndex - 1 + services.length) % services.length;
-      updateService(serviceIndex);
+      updateService(serviceIndex, 'prev');
     });
 
     document.getElementById('nextService').addEventListener('click', () => {
       serviceIndex = (serviceIndex + 1) % services.length;
-      updateService(serviceIndex);
+      updateService(serviceIndex, 'next');
     });
 
     document.getElementById('demoButton').addEventListener('click', () => {
