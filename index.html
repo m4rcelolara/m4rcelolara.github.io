@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AUGI</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -37,7 +38,7 @@
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 50;
+      z-index: 300;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -76,14 +77,14 @@
 
     .luz-1 {
       width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(65, 200, 253, 0.534) 0%, transparent 50%);
+      background: radial-gradient(circle, rgba(65,200,253,0.534) 0%, transparent 50%);
       top: 10%; left: 15%;
       animation: parpadeo 6s ease-in-out infinite;
     }
 
     .luz-2 {
       width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(65, 200, 253, 0.397) 0%, transparent 50%);
+      background: radial-gradient(circle, rgba(65,200,253,0.397) 0%, transparent 50%);
       bottom: 15%; right: 10%;
       animation: parpadeo 8s ease-in-out 1.5s infinite;
     }
@@ -98,7 +99,7 @@
 
     @keyframes parpadeo {
       0%, 100% { opacity: 0.5; }
-      50%       { opacity: 0.8;   }
+      50%       { opacity: 0.8; }
     }
 
     .float-canvas {
@@ -147,20 +148,10 @@
       line-height: 1.15;
     }
 
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeUpSimple {
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes fadeUpSimple { to { opacity: 1; transform: translateY(0); } }
 
     /* ── SERVICIOS ── */
-    .services {
-      padding: 80px 24px 100px;
-      background: var(--negro);
-    }
-
     .services-title {
       font-family: 'Montserrat', sans-serif;
       font-size: 14px;
@@ -170,10 +161,8 @@
       margin-bottom: 14px;
       margin-top: 8px;
       letter-spacing: 1px;
-      text-transform: none;
     }
 
-    /* ── SLIDER LAYOUT ── */
     .service-slider {
       width: 100%;
       max-width: 1080px;
@@ -185,7 +174,6 @@
       z-index: 1;
     }
 
-    /* En pantallas grandes: dos columnas */
     @media (min-width: 700px) {
       .service-slider {
         display: grid;
@@ -194,7 +182,6 @@
       }
     }
 
-    /* ── CARD ── */
     .slider-card {
       position: relative;
       overflow: hidden;
@@ -206,7 +193,6 @@
       width: 100%;
     }
 
-    /* Imagen: usa aspect-ratio para que nunca se corte */
     .slider-image-wrap {
       position: relative;
       width: 100%;
@@ -216,8 +202,7 @@
     }
 
     .service-image {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       object-position: center;
       display: block;
@@ -227,8 +212,7 @@
       position: absolute;
       left: 0; right: 0; bottom: 0;
       padding: 12px 10px;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(0px);
+      background: rgba(0,0,0,0.82);
       border-top: 1px solid rgba(255,255,255,0.08);
     }
 
@@ -243,7 +227,6 @@
       margin: 0;
     }
 
-    /* ── PANEL DERECHO ── */
     .service-right {
       display: flex;
       flex-direction: column;
@@ -260,13 +243,9 @@
       color: var(--blanco);
       font-family: 'Montserrat', sans-serif;
       font-size: clamp(14px, 3.5vw, 18px);
-      font-weight: normal;
       line-height: 1.2;
-      letter-spacing: 2;
-      opacity: 100%;
     }
 
-    /* ── BOTONES ── */
     .btn-group {
       display: flex;
       flex-direction: column;
@@ -278,7 +257,7 @@
       width: 100%;
       padding: 12px 16px;
       color: var(--acento);
-      background: rgba(33, 118, 151, 0.1);
+      background: rgba(33,118,151,0.1);
       border: 1px solid rgba(65,200,253,0.25);
       border-radius: 100px;
       text-transform: uppercase;
@@ -287,12 +266,10 @@
       font-size: 15px;
       font-family: 'Lato', sans-serif;
       cursor: pointer;
-      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
       touch-action: manipulation;
       text-align: center;
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0);
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -303,7 +280,6 @@
       }
     }
 
-    /* ── CONTROLES ── */
     .slider-controls {
       display: flex;
       justify-content: center;
@@ -311,11 +287,10 @@
     }
 
     .slider-btn {
-      width: 56px;
-      height: 56px;
+      width: 56px; height: 56px;
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(15, 15, 15, 0.85);
+      background: rgba(15,15,15,0.85);
       color: var(--blanco);
       font-size: 28px;
       cursor: pointer;
@@ -338,7 +313,7 @@
       width: 100%;
       padding: 12px 16px;
       color: var(--acento);
-      background: rgba(33, 118, 151, 0.1);
+      background: rgba(33,118,151,0.1);
       border: 1px solid rgba(65,200,253,0.35);
       border-radius: 100px;
       text-transform: uppercase;
@@ -347,13 +322,11 @@
       font-size: 16px;
       font-family: 'Montserrat', sans-serif;
       cursor: pointer;
-      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
       touch-action: manipulation;
       text-align: center;
       position: relative;
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0);
     }
 
     .solicitar-button::before {
@@ -372,14 +345,194 @@
         transform: translateY(-1px);
         border-color: rgba(65,200,253,0.6);
       }
+    }
 
-      .solicitar-button::before {
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
+    /* ══════════════════════════════════════
+       OVERLAY DE CONTACTO
+    ══════════════════════════════════════ */
+    #overlayContacto {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.322);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
 
-      .solicitar-button:hover::before {
-        opacity: 1;
+    #overlayContacto.visible {
+      display: flex;
+    }
+
+    #panelContacto {
+      width: 100%;
+      max-width: 440px;
+      background: #000000ab;
+      border: 0px solid rgb(36, 193, 255);
+      border-radius: 24px;
+      padding: 24px 22px 20px;
+      color: var(--blanco);
+      position: relative;
+      font-family: 'Montserrat', sans-serif;
+      max-height: calc(90vh - 90px);
+      overflow-y: auto;
+    }
+
+    #panelContacto::-webkit-scrollbar { width: 4px; }
+    #panelContacto::-webkit-scrollbar-track { background: transparent; }
+    #panelContacto::-webkit-scrollbar-thumb { background: rgba(65,200,253,0.2); border-radius: 4px; }
+
+    #btnCerrar {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    #btnCerrar:hover { color: var(--blanco); }
+
+    .etiqueta-seccion {
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      color: var(--acento);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    #nombreServicioContacto {
+      font-size: 19px;
+      font-weight: bold;
+      color: var(--blanco);
+      margin: 0 0 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .pista-contacto {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 16px;
+      line-height: 1.5;
+    }
+
+    .campo-grupo {
+      margin-bottom: 12px;
+    }
+
+    .campo-grupo label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      color: var(--acento);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .campo-grupo input[type="text"],
+    .campo-grupo input[type="date"] {
+      width: 100%;
+      padding: 9px 13px;
+      background: rgba(255, 255, 255, 0.075);
+      border: 1px solid rgba(0, 183, 255, 0.18);
+      border-radius: 6px;
+      color: var(--blanco);
+      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+      color-scheme: dark;
+    }
+
+    .campo-grupo input[type="text"]:focus,
+    .campo-grupo input[type="date"]:focus {
+      border-color: rgba(65,200,253,0.45);
+    }
+
+    .campo-grupo input::placeholder { color: #444; }
+
+    #contenedorMapa {
+      width: 100%;
+      height: 175px;
+      border-radius: 0px;
+      border: 0px solid rgba(65, 200, 253, 0.13);
+      overflow: hidden;
+      margin-top: 6px;
+      background: #000000;
+    }
+
+    #mapaLeaflet .leaflet-tile {
+      filter: brightness(0.72) saturate(0.55);
+    }
+
+    #mapaLeaflet .leaflet-control-zoom a {
+      background: #00000093;
+      color: var(--blanco);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    #textoUbicacion {
+      font-size: 12px;
+      color: var(--acento);
+      margin: 5px 0 0;
+      min-height: 15px;
+      line-height: 1.4;
+    }
+
+    #btnWhatsapp {
+      width: 100%;
+      margin-top: 16px;
+      padding: 13px 16px;
+      background: rgba(0, 107, 46, 0.3);
+      border: 1px solid rgba(37,211,102,0.18);
+      border-radius: 100px;
+      color: #ffffff40;
+      font-size: 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      cursor: not-allowed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.25s;
+      box-sizing: border-box;
+    }
+
+    #btnWhatsapp .icono-wa {
+      width: 20px; height: 20px;
+      object-fit: contain;
+      opacity: 0.2;
+      transition: opacity 0.25s;
+    }
+
+    #btnWhatsapp.listo {
+      background: rgba(0, 107, 46, 0.6);
+      border-color: rgba(37,211,102,0.45);
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    #btnWhatsapp.listo .icono-wa { opacity: 1; }
+
+    @media (hover: hover) and (pointer: fine) {
+      #btnWhatsapp.listo:hover {
+        background: rgba(0, 107, 46, 0.9);
+        border-color: rgba(37,211,102,0.7);
+        transform: translateY(-1px);
       }
     }
   </style>
@@ -387,9 +540,10 @@
 <body>
 
   <nav>
-    <img src="recursos/interfaz/logotitulo.png" class="nav-logo" alt="AUGI Logo">
+    <img src="recursos/interfaz/logotitulo.png" class="nav-logo" alt="Logo AUGI">
   </nav>
 
+  <!-- ══ SECCIÓN PRINCIPAL ══ -->
   <section class="hero">
     <div class="luz luz-1"></div>
     <div class="luz luz-2"></div>
@@ -401,8 +555,8 @@
     </div>
 
     <h2 class="services-title">Te ofrecemos:</h2>
-    <div class="service-slider">
 
+    <div class="service-slider">
       <div class="service-left">
         <div class="slider-card" id="serviceCard">
           <div class="slider-image-wrap">
@@ -421,19 +575,57 @@
           </p>
           <div class="btn-group">
             <button class="demo-button" id="demoButton">Ver demo reel</button>
-            <button class="solicitar-button" id="solicitarButton">Solicitar</button>
+            <button class="solicitar-button" id="solicitarButton">Contáctanos</button>
           </div>
         </div>
         <div class="slider-controls">
-          <button class="slider-btn" id="prevService" aria-label="Anterior servicio">‹</button>
-          <button class="slider-btn" id="nextService" aria-label="Siguiente servicio">›</button>
+          <button class="slider-btn" id="prevService" aria-label="Servicio anterior">&#8249;</button>
+          <button class="slider-btn" id="nextService" aria-label="Servicio siguiente">&#8250;</button>
         </div>
       </div>
-
     </div>
   </section>
 
+  <!-- ══ OVERLAY DE CONTACTO ══ -->
+  <div id="overlayContacto" role="dialog" aria-modal="true" aria-label="Formulario de contacto">
+    <div id="panelContacto">
+
+      <button id="btnCerrar" aria-label="Cerrar panel">&#215;</button>
+
+      <span class="etiqueta-seccion">Contactar para</span>
+      <p id="nombreServicioContacto">–</p>
+      <p class="pista-contacto">Selecciona el lugar en el mapa y elige una fecha para contactarnos.</p>
+
+      <!-- Lugar del evento -->
+      <div class="campo-grupo">
+        <label for="campoBusqueda">Lugar</label>
+        <input id="campoBusqueda" type="text" placeholder="Buscar dirección o colonia..." autocomplete="off"/>
+        <div id="contenedorMapa">
+          <div id="mapaLeaflet" style="width:100%; height:100%;"></div>
+        </div>
+        <p id="textoUbicacion"></p>
+      </div>
+
+      <!-- Fecha -->
+      <div class="campo-grupo">
+        <label for="campoFecha">Fecha</label>
+        <input id="campoFecha" type="date"/>
+      </div>
+
+      <!-- Botón WhatsApp -->
+      <button id="btnWhatsapp" disabled>
+        <img src="recursos/interfaz/whatsappicon.png" alt="" class="icono-wa"/>
+        Contactar
+      </button>
+
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
+    /* ════════════════════════════════════
+       IMÁGENES FLOTANTES
+    ════════════════════════════════════ */
     const imagenes = [
       'recursos/float/1.JPG',
       'recursos/float/2.JPG',
@@ -441,129 +633,277 @@
       'recursos/float/4.JPG',
     ];
 
-    const canvas   = document.getElementById('floatCanvas');
-    const W        = () => canvas.offsetWidth;
-    const H        = () => canvas.offsetHeight;
-    let   imgIndex = 0;
+    const lienzo      = document.getElementById('floatCanvas');
+    const ancho       = () => lienzo.offsetWidth;
+    const alto        = () => lienzo.offsetHeight;
+    let   contadorImg = 0;
 
-    function lanzar() {
-      const src       = imagenes[imgIndex % imagenes.length];
-      imgIndex++;
+    function lanzarImagen() {
+      const src   = imagenes[contadorImg % imagenes.length];
+      contadorImg++;
 
-      const img       = document.createElement('img');
-      img.src         = src;
-      img.className   = 'float-img';
+      const img     = document.createElement('img');
+      img.src       = src;
+      img.className = 'float-img';
 
-      const margen    = 30;
-      const areaWidth = W() + 400;
-      const xInicio   = -200 + Math.random() * areaWidth;
+      const areaAncho = ancho() + 400;
+      const xInicio   = -200 + Math.random() * areaAncho;
       const escala    = 0.4 + Math.random() * 0.4;
 
       img.style.width  = (120 * escala) + 'px';
-      img.style.height = (80 * escala) + 'px';
+      img.style.height = (80  * escala) + 'px';
       img.style.left   = xInicio + 'px';
 
       const duracion    = 9000 + Math.random() * 8000;
       const amplitud    = 80   + Math.random() * 90;
       const fase        = Math.random() * Math.PI * 2;
 
-      canvas.appendChild(img);
+      lienzo.appendChild(img);
 
       const inicio      = performance.now();
-      const alturaTotal = H() + 940;
+      const alturaTotal = alto() + 940;
 
-      function tick(ahora) {
-        const t        = (ahora - inicio) / duracion;
-        const progreso = t;
+      function animar(ahora) {
+        const progreso = (ahora - inicio) / duracion;
+        if (progreso >= 1) { img.remove(); return; }
 
-        if (t >= 1) { img.remove(); return; }
-
-        const y = H() - progreso * alturaTotal;
+        const y = alto() - progreso * alturaTotal;
         const x = xInicio + Math.sin(fase + progreso * Math.PI * 4) * amplitud;
 
         let opacidad;
-        if (progreso < 0.12)      opacidad = (progreso / 0.12) * 0.55;
+        if      (progreso < 0.12) opacidad = (progreso / 0.12) * 0.55;
         else if (progreso > 0.78) opacidad = ((1 - progreso) / 0.22) * 0.55;
         else                      opacidad = 0.55;
 
         img.style.transform = `translate(${x - xInicio}px, ${y}px)`;
         img.style.opacity   = opacidad;
-
-        requestAnimationFrame(tick);
+        requestAnimationFrame(animar);
       }
 
-      requestAnimationFrame(tick);
+      requestAnimationFrame(animar);
     }
 
-    setTimeout(() => { lanzar(); setInterval(lanzar, 800); }, 10);
+    setTimeout(() => { lanzarImagen(); setInterval(lanzarImagen, 800); }, 10);
 
-    const services = [
+    /* ════════════════════════════════════
+       SLIDER DE SERVICIOS
+    ════════════════════════════════════ */
+    const servicios = [
       {
-        title: 'Producción de XV Años',
-        description: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
-        image: 'recursos/slider/xv.JPG'
+        titulo:      'Producción de XV Años',
+        descripcion: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
+        imagen:      'recursos/slider/xv.JPG'
       },
       {
-        title: 'Evento Corporativo',
-        description: 'Grabación de eventos empresariales con producción pulida y entrega de contenido listo para presentar.',
-        image: 'recursos/slider/placeholder.jfif'
+        titulo:      'Evento Corporativo',
+        descripcion: 'Grabación de eventos empresariales con producción pulida y entrega de contenido listo para presentar.',
+        imagen:      'recursos/slider/placeholder.jfif'
       },
       {
-        title: 'Producción de Boda',
-        description: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
-        image: 'recursos/slider/boda.JPG'
+        titulo:      'Producción de Boda',
+        descripcion: 'Cobertura completa de eventos sociales con fotografía y video profesional, edición incluida y entrega digital.',
+        imagen:      'recursos/slider/boda.JPG'
       }
     ];
 
-    const serviceImage       = document.getElementById('serviceImage');
-    const serviceTitle       = document.getElementById('serviceTitle');
-    const serviceDescription = document.getElementById('serviceDescription');
-    const serviceCard        = document.getElementById('serviceCard');
-    let   serviceIndex       = 2;
+    const imgServicio     = document.getElementById('serviceImage');
+    const tituloServicio  = document.getElementById('serviceTitle');
+    const descServicio    = document.getElementById('serviceDescription');
+    const tarjetaServicio = document.getElementById('serviceCard');
+    let   indiceServicio  = 2;
 
-    function updateService(index, direction) {
-      const exitX   = direction === 'next' ? -60 : 60;
-      const enterX  = direction === 'next' ? 60 : -60;
+    function cambiarServicio(indice, direccion) {
+      const salidaX  = direccion === 'siguiente' ? -60 : 60;
+      const entradaX = direccion === 'siguiente' ?  60 : -60;
 
-      serviceCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-      serviceCard.style.opacity    = '0';
-      serviceCard.style.transform  = `translateX(${exitX}px) scale(0.92)`;
+      tarjetaServicio.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+      tarjetaServicio.style.opacity    = '0';
+      tarjetaServicio.style.transform  = `translateX(${salidaX}px) scale(0.92)`;
 
       setTimeout(() => {
-        const service           = services[index];
-        serviceImage.src        = service.image;
-        serviceImage.alt        = service.title;
-        serviceTitle.textContent       = service.title;
-        serviceDescription.textContent = service.description;
+        const s = servicios[indice];
+        imgServicio.src            = s.imagen;
+        imgServicio.alt            = s.titulo;
+        tituloServicio.textContent = s.titulo;
+        descServicio.textContent   = s.descripcion;
 
-        serviceCard.style.transition = 'none';
-        serviceCard.style.opacity    = '0';
-        serviceCard.style.transform  = `translateX(${enterX}px) scale(0.92)`;
+        tarjetaServicio.style.transition = 'none';
+        tarjetaServicio.style.opacity    = '0';
+        tarjetaServicio.style.transform  = `translateX(${entradaX}px) scale(0.92)`;
 
         setTimeout(() => {
-          serviceCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-          serviceCard.style.opacity    = '1';
-          serviceCard.style.transform  = 'translateX(0) scale(1)';
+          tarjetaServicio.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+          tarjetaServicio.style.opacity    = '1';
+          tarjetaServicio.style.transform  = 'translateX(0) scale(1)';
         }, 50);
       }, 350);
     }
 
     document.getElementById('prevService').addEventListener('click', () => {
-      serviceIndex = (serviceIndex - 1 + services.length) % services.length;
-      updateService(serviceIndex, 'prev');
+      indiceServicio = (indiceServicio - 1 + servicios.length) % servicios.length;
+      cambiarServicio(indiceServicio, 'anterior');
     });
 
     document.getElementById('nextService').addEventListener('click', () => {
-      serviceIndex = (serviceIndex + 1) % services.length;
-      updateService(serviceIndex, 'next');
+      indiceServicio = (indiceServicio + 1) % servicios.length;
+      cambiarServicio(indiceServicio, 'siguiente');
     });
 
     document.getElementById('demoButton').addEventListener('click', () => {
-      alert('Demo reel pronto disponible. En breve agregaremos el video de YouTube para este servicio.');
+      alert('Demo reel próximamente disponible. En breve agregaremos el video de YouTube para este servicio.');
     });
 
-    document.getElementById('solicitarButton').addEventListener('click', () => {
-      alert('Función de solicitud próximamente disponible.');
+    /* ════════════════════════════════════
+       POPUP DE CONTACTO
+    ════════════════════════════════════ */
+    const overlayContacto        = document.getElementById('overlayContacto');
+    const nombreServicioContacto = document.getElementById('nombreServicioContacto');
+    const campoBusqueda          = document.getElementById('campoBusqueda');
+    const campoFecha             = document.getElementById('campoFecha');
+    const textoUbicacion         = document.getElementById('textoUbicacion');
+    const btnWhatsapp            = document.getElementById('btnWhatsapp');
+
+    let mapa              = null;
+    let marcador          = null;
+    let latSeleccionada   = null;
+    let lngSeleccionada   = null;
+    let direccionCompleta = '';
+
+    function iconoMarcador() {
+      return L.divIcon({
+        html: '<div style="width:14px;height:14px;border-radius:50%;background:#41c8fd;border:2px solid #fff;box-shadow:0 0 8px rgba(65,200,253,0.8);"></div>',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7],
+        className: ''
+      });
+    }
+
+    function iniciarMapa() {
+      if (mapa) {
+        setTimeout(() => mapa.invalidateSize(), 80);
+        return;
+      }
+      mapa = L.map('mapaLeaflet', {
+        zoomControl: true,
+        attributionControl: false
+      }).setView([25.6866, -100.3161], 12);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+      }).addTo(mapa);
+
+      mapa.on('click', function(e) {
+        colocarMarcador(e.latlng.lat, e.latlng.lng);
+        geocodificacionInversa(e.latlng.lat, e.latlng.lng);
+      });
+    }
+
+    function colocarMarcador(lat, lng) {
+      latSeleccionada = lat.toFixed(6);
+      lngSeleccionada = lng.toFixed(6);
+      const latlng = L.latLng(lat, lng);
+      if (marcador) marcador.setLatLng(latlng);
+      else          marcador = L.marker(latlng, { icon: iconoMarcador() }).addTo(mapa);
+    }
+
+    function geocodificacionInversa(lat, lng) {
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+        .then(r => r.json())
+        .then(datos => {
+          direccionCompleta = datos.display_name || `${lat}, ${lng}`;
+          const corta = direccionCompleta.split(',').slice(0, 3).join(',');
+          textoUbicacion.textContent = '📍 ' + corta;
+          campoBusqueda.value = corta;
+          verificarListo();
+        })
+        .catch(() => {
+          direccionCompleta = `${lat}, ${lng}`;
+          textoUbicacion.textContent = '📍 ' + direccionCompleta;
+          verificarListo();
+        });
+    }
+
+    function buscarDireccion() {
+      const consulta = campoBusqueda.value.trim();
+      if (!consulta) return;
+
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(consulta)}&limit=1&countrycodes=mx`)
+        .then(r => r.json())
+        .then(resultados => {
+          if (resultados && resultados[0]) {
+            const lat = parseFloat(resultados[0].lat);
+            const lng = parseFloat(resultados[0].lon);
+            direccionCompleta = resultados[0].display_name;
+            mapa.setView([lat, lng], 15);
+            colocarMarcador(lat, lng);
+            const corta = direccionCompleta.split(',').slice(0, 3).join(',');
+            textoUbicacion.textContent = ' ' + corta;
+            verificarListo();
+          } else {
+            textoUbicacion.textContent = 'No se encontró la dirección. Intenta ser más específico.';
+          }
+        });
+    }
+
+    function verificarListo() {
+      const tieneUbicacion = latSeleccionada && lngSeleccionada;
+      const tieneFecha     = campoFecha.value !== '';
+      if (tieneUbicacion && tieneFecha) {
+        btnWhatsapp.disabled = false;
+        btnWhatsapp.classList.add('listo');
+      } else {
+        btnWhatsapp.disabled = true;
+        btnWhatsapp.classList.remove('listo');
+      }
+    }
+
+    function abrirContacto() {
+      nombreServicioContacto.textContent = servicios[indiceServicio].titulo;
+      overlayContacto.classList.add('visible');
+
+      // Resetear estado anterior
+      latSeleccionada       = null;
+      lngSeleccionada       = null;
+      direccionCompleta     = '';
+      campoBusqueda.value   = '';
+      campoFecha.value      = '';
+      textoUbicacion.textContent = '';
+      btnWhatsapp.disabled  = true;
+      btnWhatsapp.classList.remove('listo');
+
+      setTimeout(iniciarMapa, 80);
+    }
+
+    function cerrarContacto() {
+      overlayContacto.classList.remove('visible');
+    }
+
+    document.getElementById('btnCerrar').addEventListener('click', cerrarContacto);
+
+    overlayContacto.addEventListener('click', function(e) {
+      if (e.target === overlayContacto) cerrarContacto();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') cerrarContacto();
+    });
+
+    campoBusqueda.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') buscarDireccion();
+    });
+
+    campoFecha.addEventListener('change', verificarListo);
+
+    document.getElementById('solicitarButton').addEventListener('click', abrirContacto);
+
+    btnWhatsapp.addEventListener('click', function() {
+      if (btnWhatsapp.disabled) return;
+      const [anio, mes, dia] = campoFecha.value.split('-');
+      const fechaFormateada  = `${dia}-${mes}-${anio}`;
+      const servicio         = servicios[indiceServicio].titulo;
+      const direccionCorta   = direccionCompleta.split(',').slice(0, 4).join(',').trim();
+      const mensaje = `Hola, solicitamos el servicio de ${servicio} para la fecha ${fechaFormateada} en ${direccionCorta}.\n\nDetalles: `;
+      window.open(`https://wa.me/528124384370?text=${encodeURIComponent(mensaje)}`, '_blank');
     });
   </script>
 
