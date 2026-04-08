@@ -594,12 +594,12 @@
 
       <span class="etiqueta-seccion">Contactar para</span>
       <p id="nombreServicioContacto">–</p>
-      <p class="pista-contacto">Selecciona el lugar en el mapa y elige una fecha para contactarnos.</p>
+      <p class="pista-contacto">Para continuar, porfavor ayudenos con informacion de su evento.</p>
 
       <!-- Lugar del evento -->
       <div class="campo-grupo">
-        <label for="campoBusqueda">Lugar</label>
-        <input id="campoBusqueda" type="text" placeholder="Buscar dirección o colonia..." autocomplete="off"/>
+        <label for="campoBusqueda">Lugar de su evento:</label>
+        <input id="campoBusqueda" type="text" placeholder="Escribir direccion del salon/lugar" autocomplete="off"/>
         <div id="contenedorMapa">
           <div id="mapaLeaflet" style="width:100%; height:100%;"></div>
         </div>
@@ -608,7 +608,7 @@
 
       <!-- Fecha -->
       <div class="campo-grupo">
-        <label for="campoFecha">Fecha</label>
+        <label for="campoFecha">Fecha de su evento:</label>
         <input id="campoFecha" type="date"/>
       </div>
 
@@ -750,7 +750,7 @@
     });
 
     document.getElementById('demoButton').addEventListener('click', () => {
-      alert('PENDIENTE');
+      alert('Demo reel próximamente disponible. En breve agregaremos el video de YouTube para este servicio.');
     });
 
     /* ════════════════════════════════════
@@ -903,7 +903,7 @@
       const servicio         = servicios[indiceServicio].titulo;
       const direccionCorta   = direccionCompleta.split(',').slice(0, 4).join(',').trim();
       const mensaje = `Hola, solicitamos el servicio de ${servicio} para la fecha ${fechaFormateada} en ${direccionCorta}.\n\nDetalles: `;
-      window.open(`https://wa.me/528130802423?text=${encodeURIComponent(mensaje)}`, '_blank');
+      window.open(`https://wa.me/528124384370?text=${encodeURIComponent(mensaje)}`, '_blank');
     });
   </script>
 
