@@ -66,7 +66,7 @@ function lanzarImagen(progresoInicial) {
 });
 
 /* Seguir lanzando nuevas normalmente */
-setTimeout(() => setInterval(() => lanzarImagen(0), 2000), 400);
+setTimeout(() => setInterval(() => lanzarImagen(0), 800), 400);
 
 /* ════════════════════════════════════
    DATOS DE SERVICIOS
@@ -252,94 +252,17 @@ popupDemoBtn.addEventListener('click', () => {
 ════════════════════════════════════ */
 const overlayContacto        = document.getElementById('overlayContacto');
 const nombreServicioContacto = document.getElementById('nombreServicioContacto');
-const campoBusqueda          = document.getElementById('campoBusqueda');
+const campoLugar             = document.getElementById('campoLugar');
 const campoFecha             = document.getElementById('campoFecha');
-const textoUbicacion         = document.getElementById('textoUbicacion');
 const btnWhatsapp            = document.getElementById('btnWhatsapp');
-const contenedorMapa         = document.getElementById('contenedorMapa');
 
-let mapa              = null;
-let marcador          = null;
-let latSeleccionada   = null;
-let lngSeleccionada   = null;
-let direccionCompleta = '';
-
-function iconoMarcador() {
-  return L.divIcon({
-    html: '<div style="width:14px;height:14px;border-radius:50%;background:#41c8fd;border:2px solid #fff;box-shadow:0 0 8px rgba(65,200,253,0.8);"></div>',
-    iconSize: [14,14], iconAnchor: [7,7], className: ''
-  });
-}
-
-function iniciarMapa() {
-  if (mapa) { setTimeout(() => mapa.invalidateSize(), 80); return; }
-
-  mapa = L.map('mapaLeaflet', {
-    zoomControl: true,
-    attributionControl: false
-  }).setView([25.6866, -100.3161], 12);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19
-  }).addTo(mapa);
-
-  mapa.on('click', function(e) {
-    colocarMarcador(e.latlng.lat, e.latlng.lng);
-    geocodificacionInversa(e.latlng.lat, e.latlng.lng);
-  });
-}
-
-function colocarMarcador(lat, lng) {
-  latSeleccionada = lat.toFixed(6);
-  lngSeleccionada = lng.toFixed(6);
-  const latlng = L.latLng(lat, lng);
-  if (marcador) marcador.setLatLng(latlng);
-  else          marcador = L.marker(latlng, { icon: iconoMarcador() }).addTo(mapa);
-}
-
-function geocodificacionInversa(lat, lng) {
-  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-    .then(r => r.json())
-    .then(datos => {
-      direccionCompleta = datos.display_name || `${lat}, ${lng}`;
-      const corta = direccionCompleta.split(',').slice(0, 3).join(',');
-      textoUbicacion.textContent = '📍 ' + corta;
-      campoBusqueda.value = corta;
-      verificarListo();
-    })
-    .catch(() => {
-      direccionCompleta = `${lat}, ${lng}`;
-      textoUbicacion.textContent = '📍 ' + direccionCompleta;
-      verificarListo();
-    });
-}
-
-function buscarDireccion() {
-  const consulta = campoBusqueda.value.trim();
-  if (!consulta) return;
-
-  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(consulta)}&limit=1&countrycodes=mx`)
-    .then(r => r.json())
-    .then(resultados => {
-      if (resultados && resultados[0]) {
-        const lat = parseFloat(resultados[0].lat);
-        const lng = parseFloat(resultados[0].lon);
-        direccionCompleta = resultados[0].display_name;
-        mapa.setView([lat, lng], 15);
-        colocarMarcador(lat, lng);
-        const corta = direccionCompleta.split(',').slice(0, 3).join(',');
-        textoUbicacion.textContent = '📍 ' + corta;
-        verificarListo();
-      } else {
-        textoUbicacion.textContent = 'No se encontró la dirección. Intenta ser más específico.';
-      }
-    });
-}
-
+/* ════════════════════════════════════
+   VERIFICAR SI EL FORMULARIO ESTÁ LISTO
+════════════════════════════════════ */
 function verificarListo() {
-  const tieneUbicacion = latSeleccionada && lngSeleccionada;
-  const tieneFecha     = campoFecha.value !== '';
-  if (tieneUbicacion && tieneFecha) {
+  const tieneLugar = campoLugar.value.trim() !== '';
+  const tieneFecha = campoFecha.value !== '';
+  if (tieneLugar && tieneFecha) {
     btnWhatsapp.disabled = false;
     btnWhatsapp.classList.add('listo');
   } else {
@@ -348,6 +271,9 @@ function verificarListo() {
   }
 }
 
+/* ════════════════════════════════════
+   ABRIR CONTACTO
+════════════════════════════════════ */
 function abrirContacto() {
   if (!puedeEjecutar('abrirContacto', 400)) return;
 
@@ -355,25 +281,18 @@ function abrirContacto() {
   cerrarPopup();
   overlayContacto.classList.add('visible');
 
-  latSeleccionada       = null;
-  lngSeleccionada       = null;
-  direccionCompleta     = '';
-  campoBusqueda.value   = '';
-  campoFecha.value      = '';
-  textoUbicacion.textContent = '';
-  btnWhatsapp.disabled  = true;
+  campoLugar.value  = '';
+  campoFecha.value  = '';
+  btnWhatsapp.disabled = true;
   btnWhatsapp.classList.remove('listo');
-
-  setTimeout(() => {
-    iniciarMapa();
-    contenedorMapa.classList.add('visible');
-  }, 100);
 }
 
+/* ════════════════════════════════════
+   CERRAR CONTACTO Y VOLVER AL POPUP
+════════════════════════════════════ */
 function cerrarContactoYVolver() {
   if (!puedeEjecutar('cerrarContacto', 300)) return;
   overlayContacto.classList.remove('visible');
-  contenedorMapa.classList.remove('visible');
   abrirCategoria(categoriaActual);
 }
 
@@ -393,10 +312,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-campoBusqueda.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') buscarDireccion();
-});
-
+campoLugar.addEventListener('input', verificarListo);
 campoFecha.addEventListener('change', verificarListo);
 
 popupSolicitarBtn.addEventListener('click', abrirContacto);
@@ -406,10 +322,12 @@ popupSolicitarBtn.addEventListener('click', abrirContacto);
 ════════════════════════════════════ */
 btnWhatsapp.addEventListener('click', function() {
   if (btnWhatsapp.disabled || !puedeEjecutar('whatsapp', 1500)) return;
+
   const [anio, mes, dia] = campoFecha.value.split('-');
   const fechaFormateada  = `${dia}-${mes}-${anio}`;
   const servicio         = serviciosActuales[indiceActual].titulo;
-  const direccionCorta   = direccionCompleta.split(',').slice(0, 4).join(',').trim();
-  const mensaje = `Hola, solicito el servicio de ${servicio} para la fecha ${fechaFormateada} en ${direccionCorta}.\n\nDetalles: `;
+  const lugar            = campoLugar.value.trim();
+
+  const mensaje = `Hola, solicito el servicio de ${servicio} para la fecha ${fechaFormateada}.\n\nLugar del evento: ${lugar}\n\nDetalles: `;
   window.open(`https://wa.me/528124384370?text=${encodeURIComponent(mensaje)}`, '_blank');
 });
