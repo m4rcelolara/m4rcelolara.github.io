@@ -4,107 +4,147 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>AUGI | Producción Audiovisual</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" type="image/png" href="recursos/interfaz/logoicono.png">
 </head>
 <body>
 
+  <!-- ══ CANVAS FLOTANTE ══ -->
+  <div class="float-canvas" id="floatCanvas"></div>
+
   <!-- ══ NAVBAR ══ -->
-  <nav>
+  <nav id="navbar">
     <img src="recursos/interfaz/logotitulo.png" class="nav-logo" alt="Logo AUGI">
+    <span class="nav-categoria" id="navCategoria"></span>
   </nav>
+
+  <!-- ══ BOTÓN CONTACTO FLOTANTE ══ -->
+  <button class="btn-contacto-flotante" id="btnContactoFlotante">Contáctanos</button>
 
   <!-- ══ HERO ══ -->
   <section class="hero">
     <div class="luz luz-1"></div>
     <div class="luz luz-2"></div>
     <div class="luz luz-3"></div>
-    <div class="float-canvas" id="floatCanvas"></div>
-
-    <div class="hero-logo-wrap">
-      <h1 class="hero-tagline">Producción profesional en Monterrey</h1>
-    </div>
-
-    <h2 class="services-title">Para eventos:</h2>
-
-    <div class="categories-container">
-      <div class="category-card" data-category="social">
-        <img src="recursos/slider/boda.JPG" alt="Eventos Sociales" class="category-image">
-        <div class="category-overlay">
-          <div class="category-btn">Sociales</div>
-        </div>
-      </div>
-      <div class="category-card" data-category="corporate">
-        <img src="recursos/slider/grabacion.jpg" alt="Eventos Corporativos" class="category-image">
-        <div class="category-overlay">
-          <div class="category-btn">Corporativos</div>
-        </div>
-      </div>
+    <div class="hero-content">
+      <h1 class="hero-tagline">Producción profesional<br>en Monterrey</h1>
+      <p class="hero-sub">Fotografía · Video · Audio</p>
     </div>
   </section>
 
-  <!-- ══ POPUP DE CATEGORÍA ══ -->
-  <div id="popupCategoria" class="popup-overlay">
-    <div class="popup-container">
+  <!-- ══ SERVICIOS ══ -->
+  <section class="servicios-section">
 
-      <button class="popup-close" id="closePopupBtn">&#215;</button>
+    <div class="categoria-anchor" id="anchor-social" data-label="Sociales"></div>
+    <div class="servicios-grid">
 
-      <div class="popup-slider-row">
-        <div class="popup-slider-card">
-          <div class="popup-slider-image-wrap">
-            <img src="" alt="" class="popup-service-image" id="popupServiceImage">
-            <div class="popup-service-overlay" id="popupServiceOverlay"></div>
-            <button class="popup-nav-btn popup-btn-prev" id="popupPrevBtn">&#8249;</button>
-            <button class="popup-nav-btn popup-btn-next" id="popupNextBtn">&#8250;</button>
+      <div class="servicio-card">
+        <div class="servicio-img-wrap">
+          <img src="recursos/slider/boda.JPG" alt="Boda" class="servicio-img">
+          <div class="servicio-overlay">
+            <img src="recursos/slider/iconos/boda.png" alt="" class="servicio-icono">
+            <span class="servicio-titulo">Boda</span>
+          </div>
+        </div>
+        <div class="servicio-info">
+          <p class="servicio-desc">Cobertura completa con fotografía y video profesional, edición y entrega digital.</p>
+          <div class="servicio-acciones">
+            <button class="btn-demo" data-servicio="Boda">Demo reel</button>
+            <button class="btn-solicitar" data-servicio="Boda">Solicitar</button>
           </div>
         </div>
       </div>
 
-      <div class="popup-slider-info">
-        <p class="popup-service-description" id="popupServiceDescription"></p>
-        <div class="popup-btn-group">
-          <button class="popup-demo-button"      id="popupDemoButton">Ver demo reel</button>
-          <button class="popup-solicitar-button" id="popupSolicitarButton">Contáctanos</button>
+      <div class="servicio-card">
+        <div class="servicio-img-wrap">
+          <img src="recursos/slider/xv.JPG" alt="XV Años" class="servicio-img">
+          <div class="servicio-overlay">
+            <img src="recursos/slider/iconos/xv.png" alt="" class="servicio-icono">
+            <span class="servicio-titulo">XV Años</span>
+          </div>
+        </div>
+        <div class="servicio-info">
+          <p class="servicio-desc">Producción de XV años capturando cada momento especial de esta celebración única.</p>
+          <div class="servicio-acciones">
+            <button class="btn-demo" data-servicio="XV Años">Demo reel</button>
+            <button class="btn-solicitar" data-servicio="XV Años">Solicitar</button>
+          </div>
         </div>
       </div>
 
     </div>
-  </div>
+
+    <div class="categoria-anchor" id="anchor-corporate" data-label="Corporativos"></div>
+    <div class="servicios-grid">
+
+      <div class="servicio-card">
+        <div class="servicio-img-wrap">
+          <img src="recursos/slider/placeholder.jfif" alt="CCTV" class="servicio-img">
+          <div class="servicio-overlay">
+            <img src="recursos/slider/iconos/cctv.png" alt="" class="servicio-icono">
+            <span class="servicio-titulo">CCTV</span>
+          </div>
+        </div>
+        <div class="servicio-info">
+          <p class="servicio-desc">Instalación y mantenimiento de sistemas de videovigilancia para empresa o negocio.</p>
+          <div class="servicio-acciones">
+            <button class="btn-demo" data-servicio="CCTV">Demo reel</button>
+            <button class="btn-solicitar" data-servicio="CCTV">Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-img-wrap">
+          <img src="recursos/slider/grabacion.jpg" alt="Grabación" class="servicio-img">
+          <div class="servicio-overlay">
+            <img src="recursos/slider/iconos/grabacion.png" alt="" class="servicio-icono">
+            <span class="servicio-titulo">Grabación</span>
+          </div>
+        </div>
+        <div class="servicio-info">
+          <p class="servicio-desc">Cobertura profesional de conferencias, convenciones y eventos corporativos.</p>
+          <div class="servicio-acciones">
+            <button class="btn-demo" data-servicio="Grabación de Eventos">Demo reel</button>
+            <button class="btn-solicitar" data-servicio="Grabación de Eventos">Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <!-- ══ OVERLAY DE CONTACTO ══ -->
   <div id="overlayContacto" role="dialog" aria-modal="true" aria-label="Formulario de contacto">
     <div id="panelContacto">
 
-      <button id="btnCerrarContacto" aria-label="Cerrar panel">&#215;</button>
+      <button id="btnCerrarContacto" aria-label="Cerrar">&#215;</button>
 
       <span class="etiqueta-seccion">Contactar para</span>
       <p id="nombreServicioContacto">–</p>
-      <p class="pista-contacto">Para continuar, por favor ayúdenos con información de su evento.</p>
+      <p class="pista-contacto">Por favor ayúdenos con información de su evento.</p>
 
       <div class="campo-grupo">
-        <label for="campoLugar">Lugar de su evento</label>
-        <textarea
-          id="campoLugar"
-          rows="3"
-          placeholder="Escribir la dirección (nombre de lugar, calles y municipio) del lugar de su evento"
-          autocomplete="off"
-        ></textarea>
+        <label for="campoLugar">Lugar del evento</label>
+        <textarea id="campoLugar" rows="3"
+          placeholder="Nombre de lugar, calles y municipio"
+          autocomplete="off"></textarea>
       </div>
 
       <div class="campo-grupo">
-        <label for="campoFecha">Fecha de su evento</label>
+        <label for="campoFecha">Fecha del evento</label>
         <input id="campoFecha" type="date"/>
       </div>
 
       <button id="btnWhatsapp" disabled>
         <img src="recursos/interfaz/whatsappicon.png" alt="" class="icono-wa"/>
-        Contactar
+        Contactar por WhatsApp
       </button>
 
     </div>
   </div>
 
   <script src="main.js"></script>
-
 </body>
 </html>
