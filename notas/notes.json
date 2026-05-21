@@ -1,0 +1,10 @@
+[
+  {
+    "id": "prueba1",
+    "title": "Comprobacion",
+    "content": "hola jajaj",
+    "createdAt": "2025-02-14T08:30:00.000Z",
+    "sender": "Marcelo",
+    "receiver": "Servidor"
+  }
+]
