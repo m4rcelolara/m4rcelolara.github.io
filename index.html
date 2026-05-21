@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!--
+  Apple Notes — Personal Notes Web App
+  ======================================
+  GitHub Pages Deployment Instructions:
+  1. Push this entire folder to a GitHub repository.
+  2. Go to Settings → Pages → Source: "Deploy from a branch" → main / root
+  3. Click Save. Your site will be live in ~1 minute at:
+     https://<your-username>.github.io/<repository-name>/
+
+  File structure:
+    index.html        → this file
+    css/style.css     → all styles
+    js/script.js      → all logic
+    notes.json        → notes data (root level, served statically)
+
+  Admin access:
+    Press CTRL + SPACE on any screen to open the password modal.
+    Password: 0310
+    Admin changes generate a new notes.json → replace it in the repo.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1c1c1e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="Notas privadas de Marcelo para Dianney." />
+
+  <!-- Prevent indexing of this private notes app -->
+  <meta name="robots" content="noindex, nofollow" />
+
+  <title>Notas — Marcelo</title>
+
+  <!-- Preconnect for faster font loading (using system fonts so this is just best-practice) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Favicon: note emoji as SVG data URI -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🗒️</text></svg>" />
+</head>
+
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     ADMIN INDICATOR — shown when developer mode is active
+═══════════════════════════════════════════════════════════ -->
+<div id="admin-indicator" aria-live="polite">
+  ✦ Modo desarrollador
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     APP SHELL
+═══════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- ══════════════════════════════════════════════════════
+       LIST SCREEN
+  ═══════════════════════════════════════════════════════ -->
+  <section id="list-screen" aria-label="Lista de notas">
+
+    <!-- Header -->
+    <header class="list-header">
+      <div class="header-top">
+        <h1 class="header-title">Notas</h1>
+        <span class="header-count" id="note-count">0 notas</span>
+      </div>
+
+      <!-- Search bar -->
+      <div class="search-bar" role="search">
+        <!-- Search icon -->
+        <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"/>
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Buscar"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Buscar notas"
+        />
+      </div>
+    </header>
+
+    <!-- Section label -->
+    <p class="section-label">Mis notas</p>
+
+    <!-- Notes list container -->
+    <main id="notes-list" aria-label="Notas"></main>
+
+  </section><!-- /list-screen -->
+
+
+  <!-- ══════════════════════════════════════════════════════
+       DETAIL SCREEN
+  ═══════════════════════════════════════════════════════ -->
+  <section id="detail-screen" aria-label="Detalle de nota" aria-hidden="true">
+
+    <!-- Detail Header -->
+    <header class="detail-header">
+      <button class="back-btn" id="back-btn" aria-label="Volver a notas">
+        <!-- Chevron left -->
+        <svg viewBox="0 0 10 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 1L1 9l8 8"/>
+        </svg>
+        Notas
+      </button>
+
+      <div class="detail-title-wrap">
+        <h2 class="detail-header-title" id="detail-title"></h2>
+        <p  class="detail-header-date"  id="detail-date"></p>
+      </div>
+
+      <!-- Admin controls (hidden until admin mode) -->
+      <div class="detail-admin-bar" id="detail-admin-bar">
+        <button class="btn btn-yellow" id="detail-edit-btn" aria-label="Editar nota">
+          <!-- Pencil icon -->
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+        </button>
+        <button class="btn btn-red" id="detail-delete-btn" aria-label="Eliminar nota">
+          <!-- Trash icon -->
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Detail Body -->
+    <article class="detail-body" id="detail-body">
+      <!-- From / To badges -->
+      <div class="detail-badges">
+        <span class="detail-badge detail-sender" id="detail-sender"></span>
+        <span class="detail-badge detail-receiver" id="detail-receiver"></span>
+      </div>
+
+      <!-- Note full content -->
+      <p class="detail-content" id="detail-content"></p>
+    </article>
+
+  </section><!-- /detail-screen -->
+
+
+  <!-- ══════════════════════════════════════════════════════
+       FAB — New Note (admin only)
+  ═══════════════════════════════════════════════════════ -->
+  <button id="fab-new" aria-label="Nueva nota" title="Nueva nota">
+    <!-- Plus icon -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <path d="M12 5v14M5 12h14"/>
+    </svg>
+  </button>
+
+</div><!-- /app -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TOAST NOTIFICATION
+═══════════════════════════════════════════════════════════ -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     MODAL: Password / PIN
+═══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="password-modal" role="dialog" aria-modal="true" aria-label="Acceso desarrollador">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+
+    <h2 class="modal-title">Modo desarrollador</h2>
+    <p  class="modal-subtitle">Ingresa el código de acceso para activar la edición.</p>
+
+    <!-- PIN dots -->
+    <div class="pin-dots" aria-label="Código ingresado">
+      <div class="pin-dot" aria-hidden="true"></div>
+      <div class="pin-dot" aria-hidden="true"></div>
+      <div class="pin-dot" aria-hidden="true"></div>
+      <div class="pin-dot" aria-hidden="true"></div>
+    </div>
+
+    <!-- Numpad -->
+    <div class="numpad" id="numpad">
+      <!-- Row 1 -->
+      <button class="numpad-key" data-value="1" aria-label="1">1<sub></sub></button>
+      <button class="numpad-key" data-value="2" aria-label="2">2<sub>ABC</sub></button>
+      <button class="numpad-key" data-value="3" aria-label="3">3<sub>DEF</sub></button>
+      <!-- Row 2 -->
+      <button class="numpad-key" data-value="4" aria-label="4">4<sub>GHI</sub></button>
+      <button class="numpad-key" data-value="5" aria-label="5">5<sub>JKL</sub></button>
+      <button class="numpad-key" data-value="6" aria-label="6">6<sub>MNO</sub></button>
+      <!-- Row 3 -->
+      <button class="numpad-key" data-value="7" aria-label="7">7<sub>PQRS</sub></button>
+      <button class="numpad-key" data-value="8" aria-label="8">8<sub>TUV</sub></button>
+      <button class="numpad-key" data-value="9" aria-label="9">9<sub>WXYZ</sub></button>
+      <!-- Row 4 -->
+      <button class="numpad-key key-cancel" data-value="cancel" aria-label="Cancelar">Cancelar</button>
+      <button class="numpad-key" data-value="0" aria-label="0">0</button>
+      <button class="numpad-key key-delete" data-value="delete" aria-label="Borrar">
+        <!-- Backspace -->
+        <svg width="20" height="16" viewBox="0 0 24 20" fill="currentColor">
+          <path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 10l5.41 6.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3.59 9L17 13.41 15.59 12 14 13.59 12.59 12 11 13.41 9.59 12 8 13.59 6.59 12 8 10.41 9.59 9 11 10.41 12.59 9 14 10.41 15.59 9 17 10.41 18.41 9 20 10.41z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     MODAL: Create / Edit Note
+═══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="note-edit-modal" role="dialog" aria-modal="true" aria-label="Editar nota">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+
+    <h2 class="modal-title" id="edit-modal-title">Nueva nota</h2>
+
+    <!-- Title -->
+    <div class="form-group">
+      <label class="form-label" for="edit-title-input">Título</label>
+      <input
+        type="text"
+        id="edit-title-input"
+        class="form-input"
+        placeholder="Título de la nota"
+        maxlength="120"
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- Content -->
+    <div class="form-group">
+      <label class="form-label" for="edit-content-input">Contenido</label>
+      <textarea
+        id="edit-content-input"
+        class="form-textarea"
+        placeholder="Escribe aquí tu nota…"
+      ></textarea>
+    </div>
+
+    <!-- Actions -->
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="cancel-edit-btn">Cancelar</button>
+      <button class="btn btn-yellow" id="save-note-btn">Guardar nota</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     MODAL: Delete Confirmation
+═══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="delete-confirm-modal" role="dialog" aria-modal="true" aria-label="Confirmar eliminación">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+
+    <h2 class="modal-title">Eliminar nota</h2>
+    <p class="modal-subtitle">
+      ¿Eliminar <span id="delete-note-title">esta nota</span>?
+      Esta acción no se puede deshacer.
+    </p>
+
+    <div class="delete-actions">
+      <button class="btn btn-red" id="confirm-delete-btn">Eliminar</button>
+      <button class="btn btn-ghost" id="cancel-delete-btn">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Scripts -->
+<script src="js/script.js"></script>
+
+</body>
+</html>
