@@ -1,8 +1,16 @@
 [
   {
+    "id": "note-1779347165055",
+    "title": "1",
+    "content": "Hola, si lees esto en pequeño o estes viendo la interfaz q ves, es porque claramente abriste el QR que te di en mi ultima carta fisica\n\ncon lo que se, me di el tiempo de hacerte una pagina estatica donde podre subir notas contando lo que se me ocurra y tu podras leerlo\n\nde vez en cuando podre actualizar para poner mas y mas notas y tu poder verlas\n\nluego entenderas porque hago esto\n\n❤",
+    "createdAt": "2026-05-21T07:06:05.055Z",
+    "sender": "Marcelo",
+    "receiver": "Dianney"
+  },
+  {
     "id": "prueba1",
     "title": "Comprobacion",
-    "content": "hola jajaj",
+    "content": "1111",
     "createdAt": "2025-02-14T08:30:00.000Z",
     "sender": "Marcelo",
     "receiver": "Servidor"
