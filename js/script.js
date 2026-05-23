@@ -579,4 +579,18 @@ async function init() {
   bindEvents();
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', async () => { await init(); startClock(); });
+
+/* ── Live clock ─────────────────────────────────────────────── */
+function startClock() {
+  const el = document.getElementById('clock');
+  const tick = () => {
+    const now = new Date();
+    el.textContent =
+      now.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short' }) +
+      ' · ' +
+      now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  };
+  tick();
+  setInterval(tick, 1000);
+}
