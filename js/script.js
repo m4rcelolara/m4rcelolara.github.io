@@ -136,55 +136,61 @@ const Expander = {
     State.expanding = true;
     State.openNote  = note;
 
-    const panel  = this._panel;
-    const scrim  = this._scrim;
+    const panel = this._panel;
+    const scrim = this._scrim;
 
-    // 1. Read card's position in the viewport
+    // 1. Read card's viewport rect RIGHT NOW (before any scroll changes).
+    //    getBoundingClientRect() is always relative to the viewport, which
+    //    is exactly what position:fixed needs — no scrollY correction needed.
     const rect = cardEl.getBoundingClientRect();
-    this._sourceRect = rect;
 
-    // 2. Populate content (hidden, fades in once expanded)
+    // Store a plain object so it can't change later (DOMRect is live-ish).
+    this._sourceRect = {
+      top:    rect.top,
+      left:   rect.left,
+      width:  rect.width,
+      height: rect.height,
+    };
+
+    // 2. Populate content (hidden until expanded)
     this._populate(note);
 
-    // 3. Place panel exactly over the card
-    panel.style.transition = 'none';
-    panel.style.top        = rect.top  + 'px';
-    panel.style.left       = rect.left + 'px';
-    panel.style.width      = rect.width  + 'px';
-    panel.style.height     = rect.height + 'px';
+    // 3. Place panel exactly over the card with no transition
+    panel.style.transition   = 'none';
+    panel.style.top          = rect.top    + 'px';
+    panel.style.left         = rect.left   + 'px';
+    panel.style.width        = rect.width  + 'px';
+    panel.style.height       = rect.height + 'px';
     panel.style.borderRadius = '18px';
-    panel.style.opacity    = '1';
-    panel.style.transform  = 'none';
+    panel.style.opacity      = '1';
     panel.classList.add('expanding');
     panel.classList.remove('expanded');
 
-    // 4. Force paint, then animate to fullscreen
+    // 4. Force two rAFs so the browser paints the initial position first,
+    //    then we apply the transition to fullscreen.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        // Target: full viewport (accounting for max-width container)
-        const appEl   = document.getElementById('app');
-        const appRect = appEl.getBoundingClientRect();
+        // Target dimensions: full viewport height, app container width/left.
+        // We always expand to top:0 so the panel never goes off-screen.
+        const appRect = document.getElementById('app').getBoundingClientRect();
 
         panel.style.transition = [
-          'top 420ms cubic-bezier(0.32, 0.72, 0, 1)',
-          'left 420ms cubic-bezier(0.32, 0.72, 0, 1)',
-          'width 420ms cubic-bezier(0.32, 0.72, 0, 1)',
+          'top    420ms cubic-bezier(0.32, 0.72, 0, 1)',
+          'left   420ms cubic-bezier(0.32, 0.72, 0, 1)',
+          'width  420ms cubic-bezier(0.32, 0.72, 0, 1)',
           'height 420ms cubic-bezier(0.32, 0.72, 0, 1)',
           'border-radius 420ms cubic-bezier(0.32, 0.72, 0, 1)',
         ].join(', ');
 
-        panel.style.top    = appRect.top  + 'px';
-        panel.style.left   = appRect.left + 'px';
-        panel.style.width  = appRect.width  + 'px';
-        panel.style.height = window.innerHeight + 'px';
+        panel.style.top          = '0px';                        // always top of viewport
+        panel.style.left         = appRect.left + 'px';          // respect centered container
+        panel.style.width        = appRect.width + 'px';
+        panel.style.height       = window.innerHeight + 'px';
         panel.style.borderRadius = '0px';
 
-        // Dim background
         scrim.classList.add('active');
-        // Fade list
         document.getElementById('list-screen').classList.add('dimmed');
 
-        // After expand animation, show content
         setTimeout(() => {
           panel.classList.add('expanded');
           State.expanding = false;
@@ -199,26 +205,45 @@ const Expander = {
 
     const panel = this._panel;
     const scrim = this._scrim;
-    const rect  = this._sourceRect;
 
-    // Hide content immediately
+    // Re-read the source card's LIVE rect at collapse time.
+    // The user may have scrolled while reading, so the card's
+    // viewport position may differ from when it was opened.
+    const sourceId  = State.openNote?.id;
+    const sourceCard = sourceId
+      ? document.querySelector(`.note-card[data-id="${sourceId}"]`)
+      : null;
+
+    // If card is still visible in viewport use its live rect,
+    // otherwise collapse toward a neutral center-bottom point.
+    let targetRect;
+    if (sourceCard) {
+      const liveRect = sourceCard.getBoundingClientRect();
+      const inView   = liveRect.top < window.innerHeight && liveRect.bottom > 0;
+      targetRect = inView
+        ? { top: liveRect.top, left: liveRect.left, width: liveRect.width, height: liveRect.height }
+        : this._sourceRect;   // fallback to saved rect (off-screen, fade will hide it anyway)
+    } else {
+      targetRect = this._sourceRect;
+    }
+
+    // Fade content out first
     panel.classList.remove('expanded');
 
-    // Small delay so content fade-out plays first
     setTimeout(() => {
       panel.style.transition = [
-        'top 380ms cubic-bezier(0.32, 0.72, 0, 1)',
-        'left 380ms cubic-bezier(0.32, 0.72, 0, 1)',
-        'width 380ms cubic-bezier(0.32, 0.72, 0, 1)',
+        'top    380ms cubic-bezier(0.32, 0.72, 0, 1)',
+        'left   380ms cubic-bezier(0.32, 0.72, 0, 1)',
+        'width  380ms cubic-bezier(0.32, 0.72, 0, 1)',
         'height 380ms cubic-bezier(0.32, 0.72, 0, 1)',
         'border-radius 380ms cubic-bezier(0.32, 0.72, 0, 1)',
-        'opacity 200ms 180ms ease',
+        'opacity 220ms 160ms ease',
       ].join(', ');
 
-      panel.style.top          = rect.top    + 'px';
-      panel.style.left         = rect.left   + 'px';
-      panel.style.width        = rect.width  + 'px';
-      panel.style.height       = rect.height + 'px';
+      panel.style.top          = targetRect.top    + 'px';
+      panel.style.left         = targetRect.left   + 'px';
+      panel.style.width        = targetRect.width  + 'px';
+      panel.style.height       = targetRect.height + 'px';
       panel.style.borderRadius = '18px';
       panel.style.opacity      = '0';
 
@@ -227,13 +252,11 @@ const Expander = {
 
       setTimeout(() => {
         panel.classList.remove('expanding');
-        panel.style.opacity = '0';
         State.openNote  = null;
         State.expanding = false;
-        // Reset expand-body scroll
         document.getElementById('expand-body').scrollTop = 0;
-      }, 390);
-    }, 80);
+      }, 400);
+    }, 75);
   },
 
   _populate(note) {
