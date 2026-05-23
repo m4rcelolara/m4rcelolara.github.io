@@ -1,14 +1,5 @@
 <!DOCTYPE html>
-<!--
-  Apple Notes — Dark Mode Web App  (v2: grid + card-expand)
-  ============================================================
-  GitHub Pages Deployment:
-  1. Push all files to a GitHub repo.
-  2. Settings → Pages → Source: main / root
-  3. Live at https://<username>.github.io/<repo>/
 
-  Admin: CTRL+SPACE → PIN: 0310
--->
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -17,25 +8,21 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Notas — Marcelo</title>
+  <title>KDJS</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🗒️</text></svg>" />
 </head>
 <body>
 
-<!-- Admin indicator pill -->
 <div id="admin-indicator">✦ Modo desarrollador</div>
 
 <div id="app">
 
-  <!-- ══════════════════════════
-       LIST SCREEN
-  ══════════════════════════ -->
   <section id="list-screen">
 
     <header class="list-header">
       <div class="header-top">
-        <h1 class="header-title">Notas</h1>
+        <h1 class="header-title">Para Dianney</h1>
         <span class="header-count" id="note-count">0 notas</span>
       </div>
       <div class="search-bar" role="search">
@@ -47,27 +34,20 @@
       </div>
     </header>
 
-    <p class="section-label">Mis notas</p>
+    <p class="section-label" id="clock"></p>
 
-    <!-- Grid of note cards -->
+    <!-- Grid -->
     <main id="notes-list"></main>
 
   </section>
-
-  <!-- FAB — new note (admin only) -->
   <button id="fab-new" aria-label="Nueva nota">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
       <path d="M12 5v14M5 12h14"/>
     </svg>
   </button>
 
-</div><!-- /app -->
+</div>
 
-<!-- ══════════════════════════════════════════════════════
-     CARD EXPAND OVERLAY
-     JS positions this element over the tapped card,
-     then transitions it to fullscreen.
-═══════════════════════════════════════════════════════ -->
 <div id="expand-scrim"></div>
 
 <div id="card-expand" role="dialog" aria-modal="true" aria-label="Nota completa">
@@ -80,13 +60,13 @@
              stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 1L1 9l8 8"/>
         </svg>
-        Notas
+         
       </button>
       <div class="expand-title-wrap">
         <h2 class="expand-title" id="expand-title"></h2>
         <p  class="expand-date"  id="expand-date"></p>
       </div>
-      <!-- Admin controls (hidden unless admin mode) -->
+
       <div class="expand-admin-bar" id="expand-admin-bar">
         <button class="btn btn-yellow" id="expand-edit-btn" aria-label="Editar">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -115,10 +95,6 @@
 <!-- Toast -->
 <div id="toast" role="status" aria-live="polite"></div>
 
-
-<!-- ══════════════════════════════════════════════════════
-     MODAL: Password PIN
-═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="password-modal" role="dialog" aria-modal="true">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -152,9 +128,6 @@
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     MODAL: Create / Edit Note
-═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="note-edit-modal" role="dialog" aria-modal="true">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -177,9 +150,6 @@
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     MODAL: Delete Confirm
-═══════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="delete-confirm-modal" role="dialog" aria-modal="true">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
