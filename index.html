@@ -3,24 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #clock {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            font-size: 48px;
+            transform: scaleY(10); 
+            transform-origin: top center; 
+            margin-top: 2vh;
+            white-space: nowrap;
+            line-height: 1;
+        }
+    </style>
 </head>
 <body>
-    <div id="reloj" style="font-size: 48px; font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
+    <div id="clock">
         00:00:00
     </div>
 
     <script>
-        function actualizarReloj() {
-            const ahora = new Date();
-            const horas = String(ahora.getHours()).padStart(2, '0');
-            const minutos = String(ahora.getMinutes()).padStart(2, '0');
-            const segundos = String(ahora.getSeconds()).padStart(2, '0');
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
             
-            document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
         }
 
-        actualizarReloj();
-        setInterval(actualizarReloj, 1000);
+        updateClock();
+        setInterval(updateClock, 1000);
     </script>
 </body>
 </html>
